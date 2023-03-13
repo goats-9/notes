@@ -347,7 +347,116 @@ columns=fullflexible
     convenient environment for program development and execution.
     \item The various types of system services are:
     \begin{enumerate}
-        \item 
+        \item \textbf{File management:} Perform operations such as create, 
+        delete, list, access, rename, etc. on files and directories.
+        \item \textbf{Status information:} Provide system time and resources;
+        can be more complex, providing detailed performance, logging and 
+        debugging information. Some provide a \textbf{registry} to store and 
+        retrieve configuration information.
+        \item \textbf{File modification:} Text editors may create and modify 
+        content of files, or search and perform transformations on the text.
+        \item \textbf{Programming language support:} Compilers, interpreters,
+        assemblers and debuggers provided to create programs in high-level
+        programming languages.
+        \item \textbf{Program loading and execution:} Loaders, linkers, and 
+        to execute and debug a program.
+        \item \textbf{Communications:} These programs create connections among processes, 
+        users and systems. Allow for sending messages, file transfer or logging 
+        in remotely.
+        \item \textbf{Background services:} System-program processes called 
+        daemons, \textbf{services} or \textbf{subsystems}. For example, daemons 
+        to manage remote connections, process schedulers, system monitoring error 
+        services, etc.
     \end{enumerate}
+    \item \textbf{Application programs} such as web browsers, e-mail clients, 
+    video/image viewers, word processors, etc. useful for users to solve 
+    everyday problems. 
+\end{enumerate}
+
+\section{Linkers and Loaders}
+\begin{enumerate}
+    \item Source files are compiled into \textbf{relocatable object files}, that 
+    can be loaded into any physical location in memory.
+    \item A \textbf{linker} combines the relocatable object files into a single
+    binary \textbf{executable} file. Other library object files may be included
+    in this phase as well.
+    \item A \textbf{loader} loads binary executable files into memory 
+    locations where eligible to run on a CPU core.
+    \item Associated with linking and loading is \textbf{relocation}, which 
+    refers to assigning the final addresses of program parts and adjusting code
+    and data to match those addresses so that library functions and variables 
+    can be accessed during execution.
+    \item When an executable is to be run, the shell forks a process for it, 
+    then invokes the loader to load the specified program into memory using the 
+    address space of the process.
+    \item Systems allow a program to dynamically link libraries when being 
+    loaded. These are known in Windows as dynamically linked libraries 
+    (\textbf{DLLs}).
+    \item Advantages of dynamic linking are that unnecessary libraries are not 
+    linked and loaded, and multiple processes can save memory use by sharing DLLs.
+    \item In UNIX systems, object files and executables are stored in
+    \textbf{Executable and Linkable Format} (ELF). There are seaprate ELF formats 
+    for executable and relocatable files.
+    \item An ELF executable contains the program's entry point, which contains 
+    the first instruction that the program runs.
+    \item Windows uses the \textbf{Portable Executable} (PE) format and macOS 
+    uses the \textbf{Mach-O} format.   
+\end{enumerate}
+
+\section{Why Applications are Operating System Specific}
+\begin{enumerate}
+    \item An application can be made cross-platform using these approaches:
+    \begin{enumerate}
+        \item The application is written in an interpreted language such as 
+        Python or Ruby, which has an interpreter for multiple OSes. 
+        Performance is limited compared to the native OS, and the interpreter 
+        provides a subset of the features of the OS, limiting feature sets of 
+        the applications. 
+        \item The application can be written in an language that requires a
+        virtual machine for execution, for example Java. It has an RTE, 
+        including a loader, byte-code verifier, etc. ported to various OSes 
+        to load and run the application in the virtual machine. Same 
+        disadvantages as for interpreters.
+        \item Application is written in an OS specific API, hence it must be 
+        separately ported to other OSes entirely. This is cumbersome and must 
+        be done with each update. 
+    \end{enumerate}
+    \item APIs are not provided across platforms, making it difficult to run 
+    applications on other OSes.
+    \item Each OS has a binary format for its applications. This includes 
+    header layouts, instructions and variables, and their locations in the file.
+    \item CPUs have varying instruction sets. Applications with the appropriate
+    instruction sets will run properly.
+    \item System calls used by applications in one OS may not be present in 
+    another OS.
+    \item UNIX systems have adopted ELF formats to help this, but ELF is not 
+    tied to any CPU architecture.
+    \item \textbf{Application Binary Interface} (ABI) defines how different 
+    components of binary code can interface for a given OS and CPU architecture.
+    \item ABIs specify low-level details such as address width, methods of passing
+    arguments to functions, size of data types, etc.
+    \item An ABI is specified for a given architecture and OS, meaning it does
+    little for cross-platform compatability.
+\end{enumerate}
+
+\section{Operating System Design and Inplementation}
+\subsection{Design Goals}
+\begin{enumerate}
+    \item These can be grouped as \textbf{user goals} and \textbf{system goals}.
+    \item Users want ease of use, ease of learning, reliability, speed and 
+    safety.
+    \item Developers want flexible and easy implementation which is error free 
+    and reliable.
+    \item There is no unique solution for defining the goals and they vary with 
+    the OS. This is a creative task.
+    \item The field of \textbf{software engineering} develops general design 
+    principles for creating an OS.
+\end{enumerate}
+
+\subsection{Mechanisms and Policies}
+\begin{enumerate}
+    \item \textbf{Mechanisms} determine how to do something.
+    \item \textbf{Policies} determine what will be done.
+    \item 
 \end{enumerate}
 \end{document}
