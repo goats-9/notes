@@ -1,0 +1,341 @@
+\documentclass[journal,12pt,twocolumn]{IEEEtran}
+\usepackage{setspace}
+\usepackage{gensymb}
+\usepackage{xcolor}
+\usepackage{caption}
+\singlespacing
+\usepackage{siunitx}
+\usepackage[cmex10]{amsmath}
+\usepackage{mathtools}
+\usepackage{hyperref}
+\usepackage{amsthm}
+\usepackage{mathrsfs}
+\usepackage{txfonts}
+\usepackage{stfloats}
+\usepackage{cite}
+\usepackage{cases}
+\usepackage{subfig}
+\usepackage{longtable}
+\usepackage{multirow}
+\usepackage{enumitem}
+\usepackage{mathtools}
+\usepackage{listings}
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows,positioning}
+\usepackage{circuitikz}
+\usepackage{tabularx}
+\let\vec\mathbf
+\DeclareMathOperator*{\Res}{Res}
+\renewcommand\thesection{\arabic{section}}
+\renewcommand\thesubsection{\thesection.\arabic{subsection}}
+\renewcommand\thesubsubsection{\thesubsection.\arabic{subsubsection}}
+
+\renewcommand\thesectiondis{\arabic{section}}
+\renewcommand\thesubsectiondis{\thesectiondis.\arabic{subsection}}
+\renewcommand\thesubsubsectiondis{\thesubsectiondis.\arabic{subsubsection}}
+\hyphenation{op-tical net-works semi-conduc-tor}
+
+\lstset{
+language=sql,
+frame=single, 
+breaklines=true,
+columns=fullflexible
+}
+\begin{document}
+\theoremstyle{definition}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{problem}{Problem}
+\newtheorem{proposition}{Proposition}[section]
+\newtheorem{lemma}{Lemma}[section]
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{example}{Example}[section]
+\newtheorem{definition}{Definition}[section]
+\newcommand{\BEQA}{\begin{eqnarray}}
+\newcommand{\EEQA}{\end{eqnarray}}
+\newcommand{\define}{\stackrel{\triangle}{=}}
+\newcommand{\myvec}[1]{\ensuremath{\begin{pmatrix}#1\end{pmatrix}}}
+\newcommand{\mydet}[1]{\ensuremath{\begin{vmatrix}#1\end{vmatrix}}}
+\bibliographystyle{IEEEtran}
+\providecommand{\nCr}[2]{\,^{#1}C_{#2}} % nCr
+\providecommand{\nPr}[2]{\,^{#1}P_{#2}} % nPr
+\providecommand{\mbf}{\mathbf}
+\providecommand{\pr}[1]{\ensuremath{\Pr\left(#1\right)}}
+\providecommand{\qfunc}[1]{\ensuremath{Q\left(#1\right)}}
+\providecommand{\sbrak}[1]{\ensuremath{{}\left[#1\right]}}
+\providecommand{\lsbrak}[1]{\ensuremath{{}\left[#1\right.}}
+\providecommand{\rsbrak}[1]{\ensuremath{{}\left.#1\right]}}
+\providecommand{\brak}[1]{\ensuremath{\left(#1\right)}}
+\providecommand{\lbrak}[1]{\ensuremath{\left(#1\right.}}
+\providecommand{\rbrak}[1]{\ensuremath{\left.#1\right)}}
+\providecommand{\cbrak}[1]{\ensuremath{\left\{#1\right\}}}
+\providecommand{\lcbrak}[1]{\ensuremath{\left\{#1\right.}}
+\providecommand{\rcbrak}[1]{\ensuremath{\left.#1\right\}}}
+\theoremstyle{remark}
+\newtheorem{rem}{Remark}
+\newcommand{\sgn}{\mathop{\mathrm{sgn}}}
+\newcommand{\rect}{\mathop{\mathrm{rect}}}
+\newcommand{\sinc}{\mathop{\mathrm{sinc}}}
+\providecommand{\abs}[1]{\left\vert#1\right\vert}
+\providecommand{\res}[1]{\Res\displaylimits_{#1}} 
+\providecommand{\norm}[1]{\lVert#1\rVert}
+\providecommand{\mtx}[1]{\mathbf{#1}}
+\providecommand{\mean}[1]{E\left[ #1 \right]}
+\providecommand{\fourier}{\overset{\mathcal{F}}{ \rightleftharpoons}}
+\providecommand{\ztrans}{\overset{\mathcal{Z}}{ \rightleftharpoons}}
+\providecommand{\system}[1]{\overset{\mathcal{#1}}{ \longleftrightarrow}}
+\newcommand{\solution}{\noindent \textbf{Solution: }}
+\providecommand{\dec}[2]{\ensuremath{\overset{#1}{\underset{#2}{\gtrless}}}}
+\numberwithin{equation}{section}
+\makeatletter
+\@addtoreset{figure}{problem}
+\makeatother
+\let\StandardTheFigure\thefigure
+\renewcommand{\thefigure}{\theproblem}
+\def\putbox#1#2#3{\makebox[0in][l]{\makebox[#1][l]{}\raisebox{\baselineskip}[0in][0in]{\raisebox{#2}[0in][0in]{#3}}}}
+     \def\rightbox#1{\makebox[0in][r]{#1}}
+     \def\centbox#1{\makebox[0in]{#1}}
+     \def\topbox#1{\raisebox{-\baselineskip}[0in][0in]{#1}}
+     \def\midbox#1{\raisebox{-0.5\baselineskip}[0in][0in]{#1}}
+\vspace{3cm}
+\title{Chapter 2: Introduction to the Relational Model}
+\maketitle
+\tableofcontents
+\renewcommand{\thefigure}{\theenumi}
+\renewcommand{\thetable}{\theenumi}
+\bigskip
+
+\section{Structure of Relational Databases}
+\begin{enumerate}
+    \item Consists of \textbf{tables}. Each table is assigned a unique name.
+    \item Table represents a \textit{relationship} among a set of values.
+    \item Each row of a table is called a \textbf{tuple}.
+    \item Each column of a table is called an \textbf{attribute}.
+    \item A specific instance of a relation is called a \textbf{relation instance}.
+    \item The set of values each attribute in a relation can take is called the
+    \textbf{domain} of that relation.
+    \item A domain is \textbf{atomic} if the elemebts of the domain are 
+    considered to be indivisible units.
+    \item Each domain contains a special element called the \textbf{null value},
+    which signifies that the value is unknown/does not exist.
+    \item Represented as $r\brak{A_1, A_2, \ldots, A_n}$, where
+    \begin{enumerate}
+        \item $r$ is the name of the relation.
+        \item $A_i$ are the names of the attributes.
+    \end{enumerate}
+\end{enumerate}
+
+\section{Database Schema}
+\begin{enumerate}
+    \item \textbf{Database schema:} The logical design of the database.
+    \item \textbf{Database instance:} Snapshot of data in the database at any 
+    point of time.
+    \item The notion of \textit{relation} corresponds to that of a variable in 
+    programming, but that of a \textit{relation schema} corresponds to the 
+    notion of type definition.
+\end{enumerate}
+
+\section{Keys}
+\begin{enumerate}
+    \item \textbf{Superkey:} A set of one or more attributes that uniquely 
+    identify a tuple in a relation. Mathematically, if $K \subseteq R$ is a 
+    superkey of relation $r$, where $R$ is the set of attributes of $r$, then 
+    $t1 = t2 \iff t1.K = t2.K$.
+    \item \textbf{Candidate Key:} A minimal superkey (i.e., no subset of this 
+    key is also a superkey).
+    \item \textbf{Primary Key:} A candidate kay that is chosen to identify 
+    tuples within a relation. Also called \textit{primary key constraints}.
+    \item Attributes of a primary key are \textit{underlined} while representing
+    a relation.
+    \item A primary key should be chosen such that its attributes rarely change.
+    \item \textbf{Foreign-key constraint:} It is a constraint from attributes 
+    $A$ of relation $r_1$ to the primary key $B$ or $r_2$, stating that on any 
+    database instance, the value of $A$ for each tuple in $r_1$ must also be 
+    the value of $B$ of some tuple in $r_2$.
+    \begin{enumerate}
+        \item $A$ is called the \textbf{foreign key} from $r_1$ referencing 
+        $r_2$.
+        \item $r_1$ is called the \textbf{referencing relation} of the foreign-
+        key constraint.
+        \item $r_2$ is called the \textbf{referenced relation} of the foreign-
+        key constraint.
+    \end{enumerate}
+\item \textbf{Referential-integrity constraint:} Values appearing in the 
+specified attributes of the referencing relation must also appear in the 
+referenced relation. It is a more general case of the foreign-key constraint.
+\end{enumerate}
+
+\section{Schema Diagrams}
+
+It is a means of representing a database schema, with the constraints.
+\begin{enumerate}
+    \item Each relation is represented by a box, with its name at the top and 
+    attributes below.
+    \item Primary-key attributes are \underline{underlined} in the relation.
+    \item Foreign-key constraints are represented as arrows from the referenced 
+    relation to the referencing relation.
+    \item A two-headed arrow represents a referential-integrity constraint that 
+    is not a foreign-key constraint.
+\end{enumerate}
+
+\section{Relational Query Language}
+\textbf{Query language:} A language in which a user requests information from 
+the database. Higher-level than standard programming languages. Classified as:
+\begin{enumerate}
+    \item \textbf{Imperative:} User instrcuts the system to perform a sequence 
+    of operations to compute the required result. Have notion of state variables.
+    \item \textbf{Functional:} Computation is expressed as the evaluation of 
+    functions. They do not update the program state. For example, 
+    \textit{relational algebra}.
+    \item \textbf{Declarative:} User describes the required information needed 
+    without specifying how to compute it. The database system must figure out 
+    how to find the required information. For example, \textit{tuple relational
+    calculus} and \textit{domain relational calculus}.
+\end{enumerate}
+
+\section{Relational Algebra}
+\begin{enumerate}
+    \item Consists of a set of operations that take one (for \textit{unary}
+    operations) or two (for \textit{binary} operations) relations and outputs a
+    relation.
+    \item Here, we consider duplicate tuples to be eliminated, though they are 
+    allowed in databases in practice.
+\end{enumerate}
+
+\subsection{The Select Operation}
+\begin{enumerate}
+    \item Select tuples that satisfy a given predicate.
+    \item Syntax: $\sigma_{P}(r)$, where
+    \begin{enumerate}
+        \item $\sigma$ denotes the select operation
+        \item $P$ is a logical predicate or a combination of predicates.
+        \item $r$ is the name of the relation.
+    \end{enumerate}
+\end{enumerate}
+
+\subsection{The Project Operation}
+\begin{enumerate}
+    \item Returns the argument realtion with certain attricutes left out.
+    \item \textbf{Any duplicate rows in the resulting relation is eliminated.}
+    \item Syntax: $\Pi_{A_1, A_2, A_3, \ldots}(r)$, where
+    \begin{enumerate}
+        \item $\Pi$ denotes the project operation
+        \item $A_i$ are the attrubutes to be included in the result relation
+        \item $r$ is the argument relation.
+        \item \textit{Note:} A more generalized version allows the use of 
+        expressions as well as attributes in the list of attributes to project.
+    \end{enumerate}
+\end{enumerate}
+
+\subsection{The Cartesian Product Operation}
+\begin{enumerate}
+    \item Used to combine information from two relations.
+    \item Cartesian product on $r_1(R_1)$ and $r_2(R_2)$ produces a relation 
+    $r(R)$ where $R$ is the concatenation of $R_1$ and $R_2$ and $(t_1, t_2) 
+    \in r \iff t_1 \in r_1, t_2 \in r_2$. Here, $(t_1, t_2)$ denotes the 
+    concatenation of tuples in $r_1$ and $r_2$ respectively, in that order.
+    \item Syntax: $r_1 \times r_2$, where
+    \begin{enumerate}
+        \item $\times$ denotes the cartesian product operation.
+        \item $r_1$ and $r_2$ are the relations on which the cartesian product 
+        needs to be formed.
+    \end{enumerate}
+    \item If the cardinalities are $n_1$ and $n_2$, then the cardinality of the
+    cartesian product is $n_1n_2$.
+    \item To allow for repeating attribute names, the attribute name is 
+    prepended by the relation name using the dot operator, such as $r.A$.
+\end{enumerate}
+
+\subsection{The Join Operation}
+\begin{enumerate}
+    \item Allows to choose a subset of the cartesian product of two relations based on a predicate.
+    \item Used to find relevant information from two or more relations.
+    \item Combines cartesian product and selection in one single operation.
+    \item Syntax: $r \Join_\theta s = \sigma_\theta(r \times s)$, where
+    \begin{enumerate}
+        \item $\Join$ denotes the join operation
+        \item $\theta$ is the predicate on which to join the two relations.
+        \item $r$ and $s$ are the relations on which the join operation is to be carried out.
+    \end{enumerate}
+\end{enumerate}
+
+\subsection{Set Operations}
+\subsubsection{Union}
+\begin{enumerate}
+    \item It is the relation where each tuple belongs to either of the two 
+    relations.
+    \item Works only with \textbf{compatible} relations, i.e., relations 
+    where
+    \begin{enumerate}
+        \item The \textbf{arity} or the number of attributes is same.
+        \item The types associated with the $i^\text{th}$ attribute is same
+        for each $i$.
+    \end{enumerate}
+    \item Syntax: $r \cup s$, where
+    \begin{enumerate}
+        \item $\cup$ denotes the union operation.
+        \item $r$ and $s$ are the compatible input relations.
+    \end{enumerate}
+\end{enumerate}
+\subsubsection{Intersection}
+\begin{enumerate}
+    \item Finds tuples that are present in both input relations.
+    \item Works only with complatible relations.
+    \item Syntax: $r \cap s$, where
+    \begin{enumerate}
+        \item $\cap$ denotes the intersection operation.
+        \item $r$ and $s$ are the compatible input relations.
+    \end{enumerate}
+\end{enumerate}
+\subsubsection{Set-difference}
+\begin{enumerate}
+    \item Find tuples that are in one relation and not in the other.
+    \item Works only with compatible relations.
+    \item Syntax: $r - s$, where
+    \begin{enumerate}
+        \item $-$ denotes the set-difference operation.
+        \item $r$ and $s$ are the two compatible input relations.
+    \end{enumerate}
+\end{enumerate}
+
+\subsection{The Assignment Operation}
+\begin{enumerate}
+    \item Allows assigning a relation-algebra expression to temporary relation 
+    variables for future use.
+    \item Syntax: $v \leftarrow r$, where
+    \begin{enumerate}
+        \item $\leftarrow$ denotes the assignment operation.
+        \item $r$ is the input relation.
+        \item $v$ is the variable $r$ is assigned to.
+    \end{enumerate}
+    \item Allows a query to be written as a sequential program for convenience.
+\end{enumerate}
+
+\subsection{The Rename Operation}
+\begin{enumerate}
+    \item Used to give resulting relations names that can be used for reference.
+    \item Syntax: $\rho_x(E)$, where
+    \begin{enumerate}
+        \item $\rho$ denotes the rename operation.
+        \item $E$ is the input relational-algebra expression.
+        \item $x$ is the new name of $r$.
+    \end{enumerate}
+    \item Another syntax: $\rho_{x(A_1, A_2, \ldots, A_n)}(E)$, where
+    \begin{enumerate}
+        \item $\rho$ denotes the rename operation.
+        \item $E$ is the input relation-algebra expression.
+        \item $x$ is the new name of the relation.
+        \item $A_i, 1 \leq i \leq n$ are the new names for the attributes of $E$
+        \item $n$ is the arity of $E$.
+    \end{enumerate}
+    \item Not strictly required since one can use positional notation to refer 
+    to attributes. It is only a matter of convenience.
+\end{enumerate}
+
+\subsection{Equivalent Queries}
+
+Two queries that give the same result on any database are said to be 
+\textbf{equivalent}. There can be many ways to write a query. Query optimizers 
+find the most efficient way to compute a result by using a more efficient 
+equivalent query rather than the one specified.
+
+\end{document}

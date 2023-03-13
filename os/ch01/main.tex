@@ -1,0 +1,825 @@
+\documentclass[journal,12pt,twocolumn]{IEEEtran}
+\usepackage{setspace}
+\usepackage{gensymb}
+\usepackage{xcolor}
+\usepackage{caption}
+\singlespacing
+\usepackage{siunitx}
+\usepackage[cmex10]{amsmath}
+\usepackage{mathtools}
+\usepackage{hyperref}
+\usepackage{amsthm}
+\usepackage{mathrsfs}
+\usepackage{txfonts}
+\usepackage{stfloats}
+\usepackage{cite}
+\usepackage{cases}
+\usepackage{subfig}
+\usepackage{longtable}
+\usepackage{multirow}
+\usepackage{enumitem}
+\usepackage{mathtools}
+\usepackage{listings}
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows,positioning}
+\usepackage{circuitikz}
+\usepackage{tabularx}
+\let\vec\mathbf
+\DeclareMathOperator*{\Res}{Res}
+\renewcommand\thesection{\arabic{section}}
+\renewcommand\thesubsection{\thesection.\arabic{subsection}}
+\renewcommand\thesubsubsection{\thesubsection.\arabic{subsubsection}}
+
+\renewcommand\thesectiondis{\arabic{section}}
+\renewcommand\thesubsectiondis{\thesectiondis.\arabic{subsection}}
+\renewcommand\thesubsubsectiondis{\thesubsectiondis.\arabic{subsubsection}}
+\hyphenation{op-tical net-works semi-conduc-tor}
+
+\lstset{
+language=sql,
+frame=single, 
+breaklines=true,
+columns=fullflexible
+}
+\begin{document}
+\theoremstyle{definition}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{problem}{Problem}
+\newtheorem{proposition}{Proposition}[section]
+\newtheorem{lemma}{Lemma}[section]
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{example}{Example}[section]
+\newtheorem{definition}{Definition}[section]
+\newcommand{\BEQA}{\begin{eqnarray}}
+\newcommand{\EEQA}{\end{eqnarray}}
+\newcommand{\define}{\stackrel{\triangle}{=}}
+\newcommand{\myvec}[1]{\ensuremath{\begin{pmatrix}#1\end{pmatrix}}}
+\newcommand{\mydet}[1]{\ensuremath{\begin{vmatrix}#1\end{vmatrix}}}
+\bibliographystyle{IEEEtran}
+\providecommand{\nCr}[2]{\,^{#1}C_{#2}} % nCr
+\providecommand{\nPr}[2]{\,^{#1}P_{#2}} % nPr
+\providecommand{\mbf}{\mathbf}
+\providecommand{\pr}[1]{\ensuremath{\Pr\left(#1\right)}}
+\providecommand{\qfunc}[1]{\ensuremath{Q\left(#1\right)}}
+\providecommand{\sbrak}[1]{\ensuremath{{}\left[#1\right]}}
+\providecommand{\lsbrak}[1]{\ensuremath{{}\left[#1\right.}}
+\providecommand{\rsbrak}[1]{\ensuremath{{}\left.#1\right]}}
+\providecommand{\brak}[1]{\ensuremath{\left(#1\right)}}
+\providecommand{\lbrak}[1]{\ensuremath{\left(#1\right.}}
+\providecommand{\rbrak}[1]{\ensuremath{\left.#1\right)}}
+\providecommand{\cbrak}[1]{\ensuremath{\left\{#1\right\}}}
+\providecommand{\lcbrak}[1]{\ensuremath{\left\{#1\right.}}
+\providecommand{\rcbrak}[1]{\ensuremath{\left.#1\right\}}}
+\theoremstyle{remark}
+\newtheorem{rem}{Remark}
+\newcommand{\sgn}{\mathop{\mathrm{sgn}}}
+\newcommand{\rect}{\mathop{\mathrm{rect}}}
+\newcommand{\sinc}{\mathop{\mathrm{sinc}}}
+\providecommand{\abs}[1]{\left\vert#1\right\vert}
+\providecommand{\res}[1]{\Res\displaylimits_{#1}} 
+\providecommand{\norm}[1]{\lVert#1\rVert}
+\providecommand{\mtx}[1]{\mathbf{#1}}
+\providecommand{\mean}[1]{E\left[ #1 \right]}
+\providecommand{\fourier}{\overset{\mathcal{F}}{ \rightleftharpoons}}
+\providecommand{\ztrans}{\overset{\mathcal{Z}}{ \rightleftharpoons}}
+\providecommand{\system}[1]{\overset{\mathcal{#1}}{ \longleftrightarrow}}
+\newcommand{\solution}{\noindent \textbf{Solution: }}
+\providecommand{\dec}[2]{\ensuremath{\overset{#1}{\underset{#2}{\gtrless}}}}
+\numberwithin{equation}{section}
+\makeatletter
+\@addtoreset{figure}{problem}
+\makeatother
+\let\StandardTheFigure\thefigure
+\renewcommand{\thefigure}{\theproblem}
+\def\putbox#1#2#3{\makebox[0in][l]{\makebox[#1][l]{}\raisebox{\baselineskip}[0in][0in]{\raisebox{#2}[0in][0in]{#3}}}}
+     \def\rightbox#1{\makebox[0in][r]{#1}}
+     \def\centbox#1{\makebox[0in]{#1}}
+     \def\topbox#1{\raisebox{-\baselineskip}[0in][0in]{#1}}
+     \def\midbox#1{\raisebox{-0.5\baselineskip}[0in][0in]{#1}}
+\vspace{3cm}
+\title{Chapter 1: Introduction}
+\maketitle
+\tableofcontents
+\renewcommand{\thefigure}{\theenumi}
+\renewcommand{\thetable}{\theenumi}
+\bigskip
+
+\section{What Operating Systems Do}
+
+A computer system can be divided into four parts:
+\begin{enumerate}
+    \item \textbf{Hardware:} Consists of the CPU, memory and I/O devices. 
+    Provides basic computing resources to the system.
+    \item \textbf{Application programs:} Define the ways in which computer 
+    resources are to be used to solve user problems.
+    \item \textbf{Operating System (OS):} Software that controls the hardware 
+    and coordinates its use among the various application programs for the 
+    users.
+    \item \textbf{Users:} The persons or other computers that use this 
+    particular computer to solve their problems.
+\end{enumerate}
+
+\subsection{User View}
+\begin{enumerate}
+    \item Maximize the work/play that the user is performing.
+    \item OS designed mainly for \textbf{ease of use}. Some attention paid to 
+    performance and security and none to \textbf{resource utilization} (how 
+    various hardware and software resources are shared).
+    \item Some \textbf{embedded computers} in home devices and automobiles have 
+    little or no user view. These OSes are designed to run without user 
+    intervention.
+\end{enumerate}
+
+\subsection{System View}
+\begin{enumerate}
+    \item OS is a \textbf{resource allocator}. It addresses the requests and 
+    conflicts for resources, and decides how to allocate the resources to 
+    specific programs and users so that the computer can be operated 
+    efficiently and fairly.
+    \item A different view: OS is a \textbf{control program}. It manages the
+    execution of user programs to prevent errors and improper use of the 
+    computer. It is concerned with the operation and control of I/O devices.
+\end{enumerate}
+
+\subsection{Defining Operating Systems}
+\begin{enumerate}
+    \item No universally accepted definition. A simple view of an OS is: 
+    everything that a vendor ships when you order "the operating system". But 
+    this varies widly.
+    \item A more common definition: the OS is the one program running on the 
+    computer at all times, usually called the \textbf{kernel}.
+    \item Two other types of programs along with the kernel are:
+    \begin{enumerate}
+        \item \textbf{System programs:} Associated with the OS but not 
+        necessarily part of the kernel.
+        \item \textbf{Application programs:} Programs not associated with the 
+        OS.
+    \end{enumerate}
+    \item Mobile OSes contain \textbf{middleware}, a set of additional software 
+    frameworks that provide services to application developers. Usually support 
+    databases, multimedia, graphics, etc.
+\end{enumerate}
+
+\section{Computer System Organization}
+\begin{enumerate}
+    \item A modern computer system consists of one or more CPUs and a number of 
+    device controllers connected through a common \textbf{bus}. It provides 
+    access between components and shared memory.
+    \item Each device controller is in charge of a specific device. A device 
+    controller maintains local buffer storage and special-purpose registers.
+    \item OSes have a \textbf{device controller} for each controller. It 
+    understands the controller and provides rest of the OS with an interface to
+    the device.
+    \item Memory controller synchronizes access to memory since device
+    controllers and CPU compete for memory cycles.
+\end{enumerate}
+
+\subsection{Interrupts}
+
+It is the mechanism used by the device controller to inform the device driver 
+that its operation is finished. It is used in modern operating systems to 
+handle asynchronous requests.
+
+\subsubsection{Overview}
+\begin{enumerate}
+    \item Hardware triggers interrupt by sendingn a signal to the CPU via the 
+    system bus.
+    \item When CPU is interrupted, it stops the current task and transfers 
+    execution to a fixed location, which is the starting address of the
+    \textbf{interrupt service routine} (ISR).
+    \item To transfer control to the right ISR, a generic method should be 
+    invoked to examine interrupt information. This routine would call the 
+    interrupt-specific handler.
+    \item Interrupts must be handled quickly, as they are frequent. The speed 
+    is provided by a table of pointers, called the \textbf{interrupt vector}. 
+    The starting address of the ISR are indexed by a unique number.
+    \item The state information prior to the interrupt being triggered is also 
+    saved and restored.
+\end{enumerate}
+
+\subsubsection{Implementation}
+\begin{enumerate}
+    \item CPU hardware has an \textbf{interrupt-request line} that is sensed 
+    after executing every instruction.
+    \item When a signal is asserted on that line, the CPU reads the interrupt 
+    number and uses it as an index into the interrupt vector to jump to the 
+    \textbf{interrupt-handler routine}.
+    \item The CPU starts execution from the starting address of the ISR. 
+    Necessary states are saved before change and restored prior to returning 
+    from the ISR. Execution then continues from the same address before the 
+    interrupt was triggered.
+    \item In summary, the device controller \textbf{raises} an interrupt, the 
+    CPU \textbf{catches} the interrupt and \textbf{dispatches} it to the 
+    interrupt-handler. The handler \textbf{clears} the interrput by servicing 
+    the device. This is an \textbf{interrupt-driven I/O cycle}.
+    \item Sophisticated interrupt handling in a modern OS requires, provided by 
+    \textbf{interrupt-controller hardware}:
+    \begin{enumerate}
+        \item Defer interrupt handling during critical signal processing.
+        \item Efficient way to dispatch the proper interrupt handler for a 
+        device.
+        \item Multilevel interrupts to distinguish between the priority of 
+        interrupts, and respond with the appropriate urgency.
+    \end{enumerate}
+    \item Most CPUs have \textbf{nonmaskable} (for unrecoverable memory errors) 
+    and \textbf{maskable} (can be turned off by the CPU during execution of 
+    critical instructions) interrupt lines. Device controllers use maskable 
+    interrupt line.
+    \item Most CPUs have more interrupts than address elements in the interrupt 
+    vector. To accommodate all ISRs, one way is to use \textbf{interrupt chaining}.
+    \item For Intel processors, events 0 to 31 are non-maskable and events 32 
+    to 255 are maskable. Of the nonmaskable intterupts, 15 and 19 to 31 are 
+    \textbf{Intel reserved} and should not be used.
+    \item A system of \textbf{interrupt priority levels} enable the CPU to 
+    defer handling of low-level priority interrupts without masking all 
+    interrupts.
+\end{enumerate}
+
+\subsection{Storage Structure}
+\begin{enumerate}
+    \item The CPU can load instructions from memory, hence any programs to be 
+    run must be loaded into memory first. Main memory, or 
+    \textbf{random access memory} (RAM) is implemented using 
+    \textbf{dynamic random access memory} (DRAM).
+    \item The first program to run on computer startup is called 
+    \textbf{bootstrap program}, which loads the OS. However, RAM is 
+    \textbf{volatile} i.e., it loses its content when power is lost.
+    \item To store the bootstrap program, the computer uses
+    \textbf{electrically erasable programmable read-only memory} (EEPROM) 
+    and other forms of \textbf{firmware} (nonvolatile storage infrequently 
+    written to). These forms of memory are low speed and store static and 
+    infrequently used data.
+    \item A typical instruction executed on a system with a 
+    \textbf{von Neumann architecture} performs instruction fetch and stores it 
+    in the \textbf{instruction register}. It is then decoded and the 
+    instruction is executed.
+    \item \textbf{Secondary storage} is provided as an extension of main memory. 
+    It can hold large quantities of data/programs permanently. Most common 
+    examples are \textbf{hard-disk drives} (HDD) and \textbf{nonvolatile memory 
+    devices} (NVM).
+    \item Many programs use secondary storage as the source and destination of processing. However, it is slower than main memory.
+    \item **Tertiary storage** includes devices such as magnetic tapes, CD-ROM, etc. that are larger and slower than secondary memory devices. It is used to store backup copies of data and programs.
+    \item Based on their cost, access time and storage capacity, memory devices are arranged in a **memory hierarchy**.
+    \begin{enumerate}
+        \item The volatile memory and NVM are implemented using semiconductor technology.
+        \item Nonvolatile storage (NVS) is of two types:
+        \begin{enumerate}
+            \item **Mechanical**: HDDs, optical disks, magnetic tape. Chepaer and larger.
+            \item **Electrical**: SSD, NRAM, FRAM. It is also called NVM. Costlier, smaller and faster.
+        \end{enumerate}
+    \end{enumerate}
+\end{enumerate}
+
+\subsection{I/O Structure}
+\begin{enumerate}
+  \item Interrupt-driven I/O can produce large amount of overhead for bulk data 
+  movement. A resolution is \textbf{direct memory access} (DMA).
+  \item In DMA, the device controller sets up buffers, pointers, and counters
+  for the I/O device and then transfers an entire block of data directly to and 
+  from the device and main memory. \textit{CPU does not intervene}.
+  \item Only one interrupt is generated per block rather than per byte. 
+  Meanwhile, the CPU performs other work.
+  \item Some high-end systems use switch rather than bus architecture, where 
+  multiple components can operate concurrently. For such systems, DMA is more 
+  effective.
+\end{enumerate}
+
+\section{Computer-System Architecture}
+
+Some definitions:
+\begin{enumerate}
+  \item \textbf{CPU:} The hardware that executes instructions.
+  \item \textbf{Processor:} A physical chip that contains one or more CPUs.
+  \item \textbf{Core:} The basic computation unit of the CPU.
+  \item \textbf{Multicore:} Including multiple computing cores on the same CPU.
+  \item \textbf{Multiprocessor:} Including multiple processors.
+\end{enumerate}
+
+\subsection{Single-Processor Systems}
+\begin{enumerate}
+  \item The single-core CPU can run a general-purpose instruction set.
+  \item These systems have other special-purpose processors running 
+  \textit{limited} instruction sets.
+  \item They are sometiimes managed by the OS, where the OS sends them 
+  information about their next task and monitors their status. In other cases, 
+  these processors do their jobs autonomously and consist of low-level 
+  components built into hardware.
+\end{enumerate}
+
+\subsection{Multi-Processor Systems}
+\begin{enumerate}
+    \item Have at least two general-purpose processors. Increase throughput by a 
+    factor slightly smaller than the number of processors (since overheads are 
+    incurred in keeping all the parts working correctly and in contention for 
+    shared resources).
+    \item Most common multiprocessor systems use \textbf{symmetric multiprocessing 
+    systems} (SMP). Each peer CPU performs all tasks.
+    \item A disadvantage of SMPs is that work may be inefficiently distributed 
+    among CPUs. This can be avoided if each CPU shares processes and resources 
+    such as memory dynamically.
+    \item Nowadays, multicore systems are used. Advantages:
+    \begin{enumerate}
+        \item On-chip communication faster than between-chip communication.
+        \item One multicore chip uses less power compared to multiple single 
+        core chips.
+    \end{enumerate}
+    \item Each CPU core in a processor has its own local L1 cache and all of 
+    the CPU cores in a processor share another L2 cache, which is larger and 
+    slower than L1 cache.
+    \item Adding CPUs to a multiprocessor system does not scale well, since the 
+    system bus will become a bottleneck and degrade performance.
+    \item Instead, CPUs and their local memory are connected via a small, fast 
+    local bus called the \textbf{shared system interconnect}, so that all CPUs 
+    have one physical address space. This is known as the \textbf{non-uniform 
+    memory approach} (NUMA).
+    \begin{enumerate}
+        \item \textit{Advantage}: contention over the system interconnect is 
+        avoided when accessing local memory, and NUMA systems scale efficiently 
+        when more processors are added.
+        \item \textit{Drawback}: increased latency when CPUs must access remote 
+        memory across the system interconnect, possible performance penalty.
+        \item Increasingly popular on servers/high performance computers.
+    \end{enumerate}
+    \item \textbf{Blade servers} are systems in which multiple processor boards, 
+    I/O boards, networking boards, etc. are placed on the same chassis. Each 
+    processor board boots independently and runs its own OS.
+\end{enumerate}
+
+\subsection{Clustered Systems}
+\begin{enumerate}
+    \item \textbf{Clustered systems} gather multiple CPUs from independently 
+    linked \textbf{loosely coupled} systems.
+    \item Used to provide \textbf{high-availability service}, that is, services 
+    that can be delivered even if one system fails.
+    \item High availability provides increased reliability.
+    \begin{enumerate}
+        \item \textbf{Graceful degradation:} Ability to continue provideing service proportional to the level of surviving hardware.
+        \item \textbf{Fault tolerant:} Systems that can suffer a failure of any single component and still continue operation. Requires a mechanism to detect, diagnose, and correct (if possible) failures.
+    \end{enumerate}
+    \item Clusters can be \textit{symmetric} or \textit{asymmetric}.
+    \begin{enumerate}
+      \item \textbf{Asymmetric clustering:} One machine is in \textbf{hot-standby 
+      mode} while the other is running the applications. The hot-standby machine 
+      monitors the active machine and takes over in case of failure.
+      \item \textbf{Symmetric clustering:} More than one host is running the 
+      application, hosts monitor each other. More efficient, makes most use of 
+      available hardware. However, need more than one application to run.
+    \end{enumerate}
+    \item Applications designed to run on a cluster are written using a 
+    technique known as \textbf{parallelization}, to divide a program into 
+    separate parts.
+    \item Some clusters supply access control using a \textbf{distributed lock 
+    manager} (DLM) to ensure conflicting operations do not occur simultaneously.
+    \item \textbf{Stroage-area networks} (SANs) allow many systems, independent 
+    of their location.
+\end{enumerate}
+
+\section{Operating-System Operations}
+\begin{enumerate}
+  \item For a computer to start up, the bootstrap program must be run. It 
+  initializes CPU registers, device controllers, memory contents, etc. It must 
+  know how to locate the OS and load into memory.
+  \item Once the kernel is loaded, it provides services to the system and its 
+  users. Some services are provided outside the kernel by system programs that 
+  are loaded into memory at boot time, these are called \textbf{system daemons}.
+  \item On Linux, the first system program is \texttt{systemd} and it starts 
+  other daemons.
+  \item An OS waits for events to happen. Apart from hardware interrupts, there 
+  is another form of interrupt called \textbf{trap} or \textbf{execption}. These 
+  are software-generated interrupts that are caused either by error or by a 
+  specific request from a user program to perform an OS service by executing a 
+  special operation called \textbf{system call}.
+\end{enumerate}
+
+\subsection{Multiprogramming and Multitasking}
+\begin{enumerate}
+    \item \textbf{Multiprogramming} increases CPU utilization and keeps 
+    multiple users on one system satisfied.
+    \item A program in execution in a multiprogrammed system is called a 
+    \textbf{process}.
+    \item Some programs may require to wait for the completion of another 
+    operation or for user input. In a non-multiprogrammed system, the computer 
+    would sit idle, but CPU can switch to another process in multiprogrammed 
+    systems.
+    \item \textbf{Multitasking} is an extension of multiprogramming. Here, the 
+    CPU frequently switches between multiple processes being executed, 
+    providing the user with a fast \textbf{response time}.
+    \item Memory management is needed for several processes in memory. If multiple 
+    processes are ready to run at the same time, the system must decide which 
+    process to run. This is called \textbf{CPU scheduling}.
+    \item Running multiple processes requires that they should be limited in 
+    how they can affect each other, including process scheduling, disk storage 
+    and memory management.
+    \item To ensure reasonable response time, the OS can make use of 
+    \textbf{virtual memory}, a technique that allows the execution of a process 
+    not completely in memory.
+    \begin{enumerate}
+        \item Enables users to run programes that are larger than 
+        \textbf{physical memory}.
+        \item Abstracts main memory into a large uniform array of storage, 
+        separating \textbf{logical memory} as viewed by the user from physical 
+        memory.
+    \end{enumerate}
+    \item Multiprogramming and multitasking systems must provide a filesystem, 
+    storage management, access control to the filesystem, process synchronization, 
+    communication, and deadlock management.
+\end{enumerate}
+
+\subsection{Dual-Mode and Multimode Operation}
+\begin{enumerate}
+    \item Used to distinguish between execution of operating system code and 
+    user-defined code.
+    \item At least two modes of operation must be supported: \textbf{user mode}
+    and \textbf{kernel mode} (also called \textbf{supervisor mode},  
+    \textbf{system mode} or \textbf{privileged mode}).
+    \item To indicate the current mode, a \textbf{mode bit} is used. For example,
+    at boot, the hardware starts in kernel mode, the OS is loaded and it starts 
+    user applications in user mode.
+    \item It is a means of protecting OS from errant users and errant users from 
+    one another. This is achieved by \textbf{privileged instructions}. These are 
+    potentially harmful instructions that can be executed only in kernel mode.
+    \item Executing privileged instructions in user mode will cause the hardware 
+    to treat it as illegal and trap to the OS.
+    \item Can be extended:
+    \begin{enumerate}
+        \item Some Intel systems use four separate \textit{protection rings}.
+        \item ARMv8 systems have seven modes.
+        \item CPUs supporting virtualization have another mode to indicate that
+        the \textbf{virtual machine manager} (VMM) is running with privileges 
+        between the two modes.
+        \item Inital control in a system is with OS. It returns to the OS after 
+        executing user applications in user mode. System calls provide the means 
+        for a user program to ask the OS to perform privileged operations on 
+        behalf of the user.
+        \item Execution of system call:
+        \begin{enumerate}
+            \item Treated by the hardware as a software interrupt.
+            \item Control passes through interrupt vector to ISR and the mode 
+            bit is set to kernel mode.
+            \item Kernel examines instruction that raised the interrupt.
+            Additional information can be provided through registers or in 
+            memory via pointers.
+            \item Kernel executes the request after verifying that the arguments 
+            are legal, then passes control to the user.
+            \item Appropriate error messages are shown and memory dumped for
+            debugging purposes.
+        \end{enumerate}
+    \end{enumerate}
+\end{enumerate}
+
+\subsection{Timer}
+\begin{enumerate}
+    \item Prevents user program from getting stuck in an infinite loop.
+    \item May be fixed or variable (implemented by a fixed-rate clock and a 
+    counter).
+    \item Interrupt raised when clock reaches 0.
+    \item Before giving control to user, OS must ensure that clock is set to 
+    interrupt.
+    \item Instructions that modify timer contents are \textit{privileged}.
+\end{enumerate}
+
+\section{Resource Management}
+
+\subsection{Process Management}
+\begin{enumerate}
+    \item Process required reources such as CPU time, memory, files, and I/O. 
+    Allocated while running.
+    \item Note that program is a \textbf{passive} entity and process is an 
+    \textbf{active} entity.
+    \item A single-threaded process has only one \textbf{program counter}
+    specifying the address of the next instruction to be executed. Multithreaded 
+    processes have one program counter for \textit{each} thread.
+    \item Process: unit of work in a system.
+    System: collection of processes.
+    \item OS responsible for:
+    \begin{enumerate}
+        \item Creating and deleting both user and system processes.
+        \item Scheduling processes and threads on CPUs.
+        \item Suspending and resuming processes.
+        \item Providing mechanisms for process synchronization/communication.
+    \end{enumerate}
+\end{enumerate}
+
+\subsection{Memory Management}
+\begin{enumerate}
+    \item For a program to be executed, it must be mapped to an absolute address 
+    in main memory. When it is finished executing, memory must be freed and 
+    declared available.
+    \item Memory management is essential to improve CPU utilization and respose time.
+    \item OS responsible for:
+    \begin{enumerate}
+        \item Keeping track of which parts of memory are being used and which 
+        process is using them.
+        \item Allocating and deallocating memory space as needed.
+        \item Deciding which processes and data to move into and out of memory.
+    \end{enumerate}
+\end{enumerate}
+
+\subsection{File-System Management}
+\begin{enumerate}
+    \item Physical properties of storage devices are abstracted to define a 
+    logical storage unit called the \textbf{file}. A file is a collection of 
+    related information defined by its creator.
+    \item Files are mapped onto physical media by the OS and accessed via 
+    storage devices.
+    \item Hardware controls the access speed, capacity, data transfer rate and 
+    access method.
+    \item Concept of a file implemented by OS by managing mass storage media and 
+    the devices that control them.
+    \item Files organized into \textbf{directories} for ease of use.
+    \item Read, write and execute access can be implemented by file or directory.
+    \item OS responsible for:
+    \begin{enumerate}
+        \item Creating and deleting files.
+        \item Creating and deleting directories to organize files.
+        \item Supporting primitives to manipulate files and directories.
+        \item Mapping files onto mass storage.
+        \item Backup files onto nonvolatile storage media.
+    \end{enumerate}
+\end{enumerate}
+
+\subsection{Mass Storage Management}
+\begin{enumerate}
+    \item Secondary storage (HDD/NVM) is used to back up main memory. Programs 
+    are stored on these devices and loaded into memory.
+    \item Mass storage devices used by these programs as the source and 
+    destination of their processing. Proper management of these devices is 
+    pivotal.
+    \item OS responsible for:
+    \begin{enumerate}
+        \item Mounting and unmounting
+        \item Free-space management
+        \item Storage allocation
+        \item Disk scheduling
+        \item Partitioning
+        \item Protection
+    \end{enumerate}
+    \item Secondary storage must be used efficiently since it is used 
+    frequently and extensively. Speed of operation of a computer is highly 
+    dependent on secondary storage and algorithms that manipulate it.
+    \item Backups can be stored in slower, higher capacity tertiary storage. 
+    Not crucial to performance, but must be managed.
+\end{enumerate}
+
+\subsection{Cache Management}
+\begin{enumerate}
+    \item \textbf{Caching} is the process of copying frequently used data and 
+    instructions temporarily to a faster storage system.
+    \item Internal programmable registers provide a high speed cache for memory.
+    Compilers implement register allocation and replacement algorithms.
+    \item Other caches such as instruction caches are implemented in main
+    memory. They are not OS controlled.
+    \item \textbf{Cache management} is important since cache size is limited.
+    \item \textbf{Cache coherency} refers to the coherency of the value of a 
+    particular memory location stored in various levels of cache.
+\end{enumerate}
+
+\subsection{I/O System Management}
+\begin{enumerate}
+    \item The \textbf{I/O subsystem} hides peculiarities of the I/O devices. It 
+    consists of several components:
+    \begin{enumerate}
+        \item Memory-mamgement component that supports buffering, caching, spooling.
+        \item General device-driver interface.
+        \item Drivers for specific hardware devices.
+    \end{enumerate}
+    \item Peculiarities of devices are known only to their respective drivers.
+\end{enumerate}
+
+\section{Security and Protection}
+
+\begin{enumerate}
+    \item \textbf{Protection} refers to any mechanism for controlling access 
+    of processes or users to the resources defined by the computer system. It
+    must provide means to specify the controls to be imposed and methods to 
+    enforce them.
+    \item Necessity of protection:
+    \begin{enumerate}
+        \item Improves reliability by detecting latent errors at the
+        interfaces between component subsystems. 
+        \item Early detection can prevent contamination of healthy subsystems. 
+        \item Unprotected resource cannot defend against use by unauthorized 
+        or incompetent users.
+    \end{enumerate}
+    \item \textbf{Security} defends a system from internal and external
+    attacks.
+    \item Some OSes implement security protocols and others require use of 
+    additional software.
+    \item To distinguish between users on the same system, each user is
+    assigned a unique \textbf{user ID} (UID) (called \textbf{security ID} 
+    (SID) in Windows systems).
+    \item To distinguish among sets of users, \textbf{group identifiers}
+    are used.
+    \item To gain extra permissions for an activity, a user may have to 
+    \textbf{escalate privileges}. The process then runs with the 
+    \textbf{effective UID} until termination.
+\end{enumerate}
+
+\section{Virutalization}
+
+\begin{enumerate}
+    \item \textbf{Virtualization} is a technology that allows abstraction of 
+    hardware of a single computer into different execution environments.
+    \item Can be viewed as different OSes running at the same time and can 
+    communicate with each other. Each environment consititutes a 
+    \textbf{virtual machine}.
+    \item \textbf{Emulation} involves simulating computer hardware in software. 
+    Typically used when source and target CPU types differ.
+    \item Examples of emulated systems include \textit{Rosetta}, which allowed 
+    applications compiled on IBM CPUs to run on Intel CPUs in Apple systems.
+    \item Emulation requires translation of machine-level instructions of the
+    source system to the target system. It may run slower than native code.
+    \item With virtualization, an OS compiled for a particular CPU architecture
+    also runs on another OS for that architecture.
+    \item The \textbf{virutal machine manager} (VMM) manages resources of and 
+    protects \textbf{guest} OSes from each other.
+    \item Advantages of virtualization:
+    \begin{enumerate}
+        \item Install multiple OSes for exploration.
+        \item Install multiple OSes for testing applications for OSes other than 
+        the host OS.
+        \item Companies use virtualization for running all OSes on a single 
+        server for development, testing and debugging.
+        \item Datacenters use virtualization to execute and manage multiple
+        computer environments.
+    \end{enumerate}
+    \item Examples of VMMs are VMWare ESX, Oracle VirtualBox and Citrix 
+    XenServer.
+\end{enumerate}
+
+\section{Distributed Systems}
+
+\begin{enumerate}
+    \item A \textbf{distributed system} is a collection of physically
+    separate, possibly heterogeneous, networked computer systems.
+    \item Users are provided access to the various maintained resources. Access 
+    to these shared resources increases computation speed, reliability, 
+    functionality and data availability.
+    \item A \textbf{network} is a communication path between two or more systems.
+    \item Networks vary by protocols used, for example \textbf{TCP/IP}.
+    \item Networks are also characterized by the distances between their nodes:
+    \begin{enumerate}
+        \item \textbf{Local Area Network} (LAN) connects nodes within a room or
+        a building.
+        \item \textbf{Wide Area Network} (WAN) links buildings, cities, or 
+        countries.
+        \item \textbf{Metropolitan Area Network} (MAN) could link buildings
+        within a city.
+        \item \textbf{Personal Area Network} (PAN) links personal devices with
+        very little separation.
+    \end{enumerate}
+    \item A \textbf{network operating system} is an OS that provides features
+    such as file sharing or communication over a network. Each node acts 
+    autonomously, as opposed to distributed OSes.
+\end{enumerate}
+
+\section{Kernel Data Structures}
+
+\subsection{Lists, Stacks and Queues}
+\begin{enumerate}
+    \item A \textbf{list} is a collection of data values as a sequence.
+    \item A \textbf{linked list} is a common list implementation. Linked lists 
+    can be of various types:
+    \begin{enumerate}
+        \item A \textbf{singularly linked list}, where each item points to its 
+        successor.
+        \item A \textbf{doubly linked list}, where each item points to its
+        predecessor and successor.
+        \item A \textbf{circularly linked list}, where each item points to its 
+        successor in a circular fashion.
+    \end{enumerate}
+    \item A disadvantage of using a linked list is that searching for an element
+    in a linked list of $n$ nodes runs in $O(n)$.
+    \item Linked lists are used to construct powerful data structures like stacks 
+    and queues.
+    \item A \textbf{stack} is a sequentially ordered data structure that uses 
+    a last in, first out (LIFO) policy for adding/removing items.
+    \item The items for insertion and deletion are called \textbf{push} and 
+    \textbf{pop} respectively.
+    \item Stacks are used when invoking function calls for the address space 
+    of each nested function.
+    \item A \textbf{queue} is a sequentially ordered data structure that uses 
+    the first in, first out (FIFO) policy for adding/removing items. 
+    \item A queue is used to schedule processes in an OS.
+\end{enumerate}
+
+\subsection{Trees}
+\begin{enumerate}
+    \item A \textbf{tree} is a data structure that represents data hierarchically.
+    \item A \textbf{general tree} can have nodes with any number of 
+    children.
+    \item A \textbf{binary tree} has nodes with at most two children.
+    \item In a \textbf{binary search tree}, an ordering is followed, usually 
+    that the left child is smaller than the parent, which is smaller than the   
+    right child.
+    \item However, with binary search trees, the worst-case performance time for 
+    searching an element is still $O(n)$.
+    \item \textbf{Balanced binary search trees} are trees in which a tree with 
+    $n$ nodes has $\log n$ levels. Thus, searching occurs in $O\brak{\log n}$
+    time.
+    \item Linux uses a special kind of tree, called the \textbf{red-black} 
+    tree for scheduling processes. 
+\end{enumerate}
+
+\subsection{Hash Functions and Maps}
+\begin{enumerate}
+    \item A \textbf{hash function} transforms data to a numeric value after
+    performing operations on it.
+    \item Finding an element in a hash table can be as quick as $O(1)$.
+    \item More than one element may have the same hash. To avoid such a 
+    \textbf{hash collision}, we have a linked list at the table location
+    which contains more than one item.
+    \item A \textbf{hash map} associates key-value pairs using a hash function.
+    \item Used to hide user credentials.
+\end{enumerate}
+
+\subsection{Bitmap}
+\begin{enumerate}
+    \item A \textbf{bitmap} is a string of $n$ binary digits that represent the 
+    boolean status of each item.
+    \item Used to save space, or indicate disk block availability.
+\end{enumerate}
+
+\section{Computing Environments}
+\subsection{Traditional Computing}
+\begin{enumerate}
+    \item Companies provide \textbf{portals} for accessing their servers via the 
+    web.
+    \item \textbf{Network computers} or \textbf{thin clients} are used in place
+    of traditional workstations to carry around.
+    \item Web portals can also be accessed by mobile devices using
+    \textbf{wireless networks}.
+    \item A \textbf{firewall} prevents networks from security breaches.
+\end{enumerate}
+
+\subsection{Mobile Computing}
+\begin{enumerate}
+    \item \textbf{Mobile computing} refers to computing on lightweight mobile 
+    devices.
+    \item Used to access the internet, shoot high-quality video, read digital
+    books, etc.
+    \item Two mobile OSes: Android (Google) and iOS (Apple).
+\end{enumerate}
+
+\subsection{Client-Server Computing}
+\begin{enumerate}
+    \item Network architecture can include \textbf{server systems} satisfying 
+    requests made by \textbf{client systems}, thereby creating a
+    \textbf{client-server system}.
+    \item Server systems are of two types:
+    \begin{enumerate}
+        \item \textbf{Compute-server system} provides an interface for clients 
+        to send requests.
+        \item \textbf{File-serve system} provides a filesystem interface where
+        clients can perform CRUD on files.
+    \end{enumerate}
+\end{enumerate}
+
+\subsection{Peer-to-Peer Computing}
+\begin{enumerate}
+    \item All nodes equal, no distinction.
+    \item To participate, node must join the network.
+    \item To find available services:
+    \begin{enumerate}
+        \item Register with a centralized lookup service, and contact it when 
+        a resource is needed.
+        \item Use a \textbf{discovery protocol} which broadcasts message to all 
+        peers nearby.
+    \end{enumerate}
+    \item Examples include Napster, Skype (hybrid peer-to-peer) using 
+    \textbf{voice over IP} (VoIP).
+\end{enumerate}
+
+\subsection{Cloud Computing}
+\begin{enumerate}
+    \item \textbf{Cloud computing} delivers computing, storage and apps as a 
+    service across a network. It is a logical extension of virtualization.
+    \item Types of cloud computing:
+    \begin{enumerate}
+        \item \textbf{Public cloud}, available an pay via Internet.
+        \item \textbf{Private cloud}, run by a company for personal use.
+        \item \textbf{Hybrid cloud}, inclues components from the other two 
+        types.
+        \item Software as a Service (SaaS), where softwares are available over 
+        the Internet.
+        \item Platform as a Service (PaaS), which gives a software stack ready 
+        for application use via the Internet.
+        \item Infrastructure as a Service (IaaS), where servers or storage is
+        available over the Internet.
+    \end{enumerate}
+\end{enumerate}
+
+\subsection{Real-Time Embedded Systems}
+\begin{enumerate}
+    \item Embedded computers most prevalent, found in many appliances.
+    \item Considerable variation, depending on functionality. Some have
+    application specific integrated circuits (ASICs) to perform their 
+    tasks without OS.
+    \item Becoming useful with Web access and Internet of Things (IoT).
+    \item Embedded systems run \textbf{real time operating systems}, 
+    where rigid time requirements are placed on the processor or flow 
+    of data. For instance, medical systems, automobile engine/braking systems.
+    \item Well-defined, fixed time constraints for the system to satisfy, to 
+    prevent failure.
+\end{enumerate}
+\end{document}

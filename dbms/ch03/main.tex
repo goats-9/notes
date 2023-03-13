@@ -1,0 +1,636 @@
+\documentclass[journal,12pt,twocolumn]{IEEEtran}
+\usepackage{setspace}
+\usepackage{gensymb}
+\usepackage{xcolor}
+\usepackage{caption}
+\singlespacing
+\usepackage{siunitx}
+\usepackage[cmex10]{amsmath}
+\usepackage{mathtools}
+\usepackage{hyperref}
+\usepackage{amsthm}
+\usepackage{mathrsfs}
+\usepackage{txfonts}
+\usepackage{stfloats}
+\usepackage{cite}
+\usepackage{cases}
+\usepackage{subfig}
+\usepackage{longtable}
+\usepackage{multirow}
+\usepackage{enumitem}
+\usepackage{mathtools}
+\usepackage{listings}
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows,positioning}
+\usepackage{circuitikz}
+\usepackage{tabularx}
+\let\vec\mathbf
+\DeclareMathOperator*{\Res}{Res}
+\renewcommand\thesection{\arabic{section}}
+\renewcommand\thesubsection{\thesection.\arabic{subsection}}
+\renewcommand\thesubsubsection{\thesubsection.\arabic{subsubsection}}
+
+\renewcommand\thesectiondis{\arabic{section}}
+\renewcommand\thesubsectiondis{\thesectiondis.\arabic{subsection}}
+\renewcommand\thesubsubsectiondis{\thesubsectiondis.\arabic{subsubsection}}
+\hyphenation{op-tical net-works semi-conduc-tor}
+
+\lstset{
+language=sql,
+frame=single, 
+breaklines=true,
+columns=fullflexible
+}
+\begin{document}
+\theoremstyle{definition}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{problem}{Problem}
+\newtheorem{proposition}{Proposition}[section]
+\newtheorem{lemma}{Lemma}[section]
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{example}{Example}[section]
+\newtheorem{definition}{Definition}[section]
+\newcommand{\BEQA}{\begin{eqnarray}}
+\newcommand{\EEQA}{\end{eqnarray}}
+\newcommand{\define}{\stackrel{\triangle}{=}}
+\newcommand{\myvec}[1]{\ensuremath{\begin{pmatrix}#1\end{pmatrix}}}
+\newcommand{\mydet}[1]{\ensuremath{\begin{vmatrix}#1\end{vmatrix}}}
+\bibliographystyle{IEEEtran}
+\providecommand{\nCr}[2]{\,^{#1}C_{#2}} % nCr
+\providecommand{\nPr}[2]{\,^{#1}P_{#2}} % nPr
+\providecommand{\mbf}{\mathbf}
+\providecommand{\pr}[1]{\ensuremath{\Pr\left(#1\right)}}
+\providecommand{\qfunc}[1]{\ensuremath{Q\left(#1\right)}}
+\providecommand{\sbrak}[1]{\ensuremath{{}\left[#1\right]}}
+\providecommand{\lsbrak}[1]{\ensuremath{{}\left[#1\right.}}
+\providecommand{\rsbrak}[1]{\ensuremath{{}\left.#1\right]}}
+\providecommand{\brak}[1]{\ensuremath{\left(#1\right)}}
+\providecommand{\lbrak}[1]{\ensuremath{\left(#1\right.}}
+\providecommand{\rbrak}[1]{\ensuremath{\left.#1\right)}}
+\providecommand{\cbrak}[1]{\ensuremath{\left\{#1\right\}}}
+\providecommand{\lcbrak}[1]{\ensuremath{\left\{#1\right.}}
+\providecommand{\rcbrak}[1]{\ensuremath{\left.#1\right\}}}
+\theoremstyle{remark}
+\newtheorem{rem}{Remark}
+\newcommand{\sgn}{\mathop{\mathrm{sgn}}}
+\newcommand{\rect}{\mathop{\mathrm{rect}}}
+\newcommand{\sinc}{\mathop{\mathrm{sinc}}}
+\providecommand{\abs}[1]{\left\vert#1\right\vert}
+\providecommand{\res}[1]{\Res\displaylimits_{#1}} 
+\providecommand{\norm}[1]{\lVert#1\rVert}
+\providecommand{\mtx}[1]{\mathbf{#1}}
+\providecommand{\mean}[1]{E\left[ #1 \right]}
+\providecommand{\fourier}{\overset{\mathcal{F}}{ \rightleftharpoons}}
+\providecommand{\ztrans}{\overset{\mathcal{Z}}{ \rightleftharpoons}}
+\providecommand{\system}[1]{\overset{\mathcal{#1}}{ \longleftrightarrow}}
+\newcommand{\solution}{\noindent \textbf{Solution: }}
+\providecommand{\dec}[2]{\ensuremath{\overset{#1}{\underset{#2}{\gtrless}}}}
+\numberwithin{equation}{section}
+\makeatletter
+\@addtoreset{figure}{problem}
+\makeatother
+\let\StandardTheFigure\thefigure
+\renewcommand{\thefigure}{\theproblem}
+\def\putbox#1#2#3{\makebox[0in][l]{\makebox[#1][l]{}\raisebox{\baselineskip}[0in][0in]{\raisebox{#2}[0in][0in]{#3}}}}
+     \def\rightbox#1{\makebox[0in][r]{#1}}
+     \def\centbox#1{\makebox[0in]{#1}}
+     \def\topbox#1{\raisebox{-\baselineskip}[0in][0in]{#1}}
+     \def\midbox#1{\raisebox{-0.5\baselineskip}[0in][0in]{#1}}
+\vspace{3cm}
+\title{Chpater 3: Introduction to SQL}
+\maketitle
+\tableofcontents
+\renewcommand{\thefigure}{\theenumi}
+\renewcommand{\thetable}{\theenumi}
+\bigskip
+
+\section{Overview of SQL}
+\begin{enumerate}
+    \item Developed as \textit{Sequel} by IBM as part of their System R project
+    in the early 1970s. Evolved into SQL (Structured Query Language).
+    \item Various standards were published for SQL such as SQL-89, SQL-92,
+    SQL:1999, SQL:2003, SQL:2006, SQL:2008, SQL:2011, and SQL:2016.
+    \item SQL has several parts:
+    \begin{enumerate}
+        \item \textbf{Data-definition Language (DDL):} Allows specification of
+        \begin{enumerate}
+            \item Defining relation schemas
+            \item Deleting relations
+            \item Modifying relation schemas
+            \item Integrity constraints
+            \item View definitions
+            \item Authorization
+        \end{enumerate}
+        \item \textbf{Data Manipulation Language (DML):} Provides commands for
+        \begin{enumerate}
+            \item Querying information from databases
+            \item Insert, delete and modify tuples in a database
+        \end{enumerate}
+    \item \textbf{Transaction control:} Specify begin and end points of 
+    transactions
+    \item \textbf{Embedded/dynamic SQL:} Define how SQL can be embedded into
+    general-purpose languages.
+    \end{enumerate}
+    \item \textbf{Note:} Comments in SQL are written in between 
+        \texttt{/* ... */} or are preceded by \texttt{--}.
+\end{enumerate}
+
+\section{SQL Data Definition}
+
+\subsection{Basic Types}
+\begin{enumerate}
+    \item \textbf{char($n$):} A fixed length character string of user-specified 
+    length $n$. Full form \textbf{character}. Padded with whitespace at the end,
+    if any.
+    \item \textbf{varchar($n$):} A variable-length character string of maximum 
+    length $n$ specified by the user. Full form \textbf{character varying}.
+    \item \textbf{int:} An integer. Full form \textbf{integer}. Machine-dependent 
+    size.
+    \item \textbf{smallint:} Small integer. Machine-dependent size.
+    \item \textbf{numeric($p, d$):} A fixed-point number with a user-specified 
+    precision. Number has $p$ digits and $d$ of the $p$ digits are to the right 
+    of the decimal point.
+    \item \textbf{real, double precision:} Floating-point and double-precision 
+    floating-point numbers. Machine-dependent precision.
+    \item \textbf{float($n$):} A floating point number with at least $n$ digit 
+    precision.
+\end{enumerate}
+
+Each type includes a special \textbf{null} value, indicating an absent or 
+unknown value. To store multilingual data using the Unicode representation, use 
+the \textbf{nvarchar} type.
+
+\subsection{Basic Schema Definition}
+
+SQL relation is defined by \textbf{create table} command. Syntax:
+
+\begin{lstlisting}
+create table tableName
+(
+    attr_1 domain_1,
+    attr_2 domain_2,
+    ...,
+    attr_n domain_n,
+    constr_1,
+    constr_2,
+    ...,
+    constr_m
+);
+\end{lstlisting}
+
+\textbf{NOTE:} ALL statements in SQL MUST end with a \textbf{semicolon} (;).
+
+Integrity constrains supported by SQL:
+\begin{enumerate}
+    \item \textbf{primary key$(A_{j_1}, A_{j_2}, \ldots, A_{j_m})$:} Specifies 
+    the attributes in brackets that form the primary-key for the relation. All 
+    attributes should be non-null and unique. Optional but recommended constraint.
+    \item \textbf{foreign key$(A_{k_1}, A_{k_2}, \ldots, A_{k_n})$ references 
+    $s$:} Values of attributes in brackets for any tuple in the relation must 
+    correspond to primary key attributes of some tuple in relation $s$.
+    \item \textbf{not null:} Specifies that the null value is not allowed for 
+    that attribute. Exculdes the \textbf{null} value from the domain of the 
+    attribute.
+\end{enumerate}
+
+\textit{Note:} Tuples that violate integrity constraints are not inserted in 
+the relation.
+
+To remove a relation from a database
+\begin{enumerate}
+    \item Use \textbf{drop table} $r$. This command deletes all information 
+    about table $r$.
+    \item In contrast, \textbf{delete from} $r$ does not delete the table $r$,
+    but deletes all tuples in $r$.
+    \item After a table is dropped, the \textbf{create table} command must be 
+    used to insert tuples into it.
+\end{enumerate}
+
+To alter the schema of an existing relation, the \textbf{alter table} command 
+is used.
+\begin{enumerate}
+    \item To add an attribute: \textbf{alter table} $r$ \textbf{add} $A$ $D$, 
+    where:
+    \begin{enumerate}
+        \item $r$ is the relation to be altered.
+        \item $A$ is the attribute to be added and $D$ is its domain.
+    \end{enumerate}
+    \item To remove an attribute: \textbf{alter table} $r$ \textbf{drop} $A$.
+    \begin{enumerate}
+        \item $r$ is the relation to be altered.
+        \item $A$ is the attribute to be deleted from the relation.
+    \end{enumerate}
+\end{enumerate}
+
+\section{Basic Structure of SQL Queries}
+
+Consists of three clauses: \textbf{select, from, where}.
+\begin{enumerate}
+    \item Input relations specified in \textbf{from} clause.
+    \item Operations on input relations defined in \textbf{select} and 
+    \textbf{where} clauses.
+    \item Basic syntax:
+    \begin{lstlisting}
+    select attr_1, attr_2, ..., attr_n
+    from table_1, table_2, ..., table_m
+    where P;
+    \end{lstlisting}
+\end{enumerate}
+
+\subsection{Queries on Relations}
+\begin{enumerate}
+    \item To specify attributes in the \textbf{select} clause, one can prepend 
+    the attribute name with the relation name separated by a dot (.).
+    \item In practice, removing duplicates is time-consuming. The default 
+    behaviour in SQL is to retain duplicates.
+    \item To force elimination of duplicates, \textbf{distinct} keyword can be 
+    used in the \textbf{select} clause. To explicitly specify that duplicates 
+    should be retained, \textbf{all} is used in the \textbf{select} clause.
+    \item The resulting select clause looks like \textbf{select (distinct|all)}.
+    \item The \textbf{select} clause can also contain arithmetic expressions on 
+    attributes or constants. These queries do NOT modify the underlying relation.
+    \item The \textbf{where} clause selects those tuples that satisfy the given
+    predicate. One can join multiple predicates using \textbf{and, or} and 
+    \textbf{not}.
+    \item The general menaing/result of an SQL query is as follows:
+    \begin{enumerate}
+        \item Generate a cartesian product of the relations in the \textbf{from} 
+        clause.
+        \item Apply the predicates in the \textbf{where} clause.
+        \item Output the attributes of each tuple specified in the \textbf{select}
+        clause.
+    \end{enumerate}
+\end{enumerate}
+
+\section{Additional Basic Operations}
+
+\subsection{The Rename Operation}
+
+Names cannot always be derived from a relation because:
+\begin{enumerate}
+    \item Two relations in the \textbf{from} clause may have the same attribute 
+    names.
+    \item Arithmetic expressions do not even have a name.
+    \item One may want to change the attribute name even if it is derivable to 
+    something more convenient for future use.
+\end{enumerate}
+
+To rename attributes, the \textbf{as} clause is used.
+\begin{enumerate}
+    \item Syntax: $r$ \textbf{as} $s$.
+    \item It can appear in both \textbf{select} and \textbf{from} clauses 
+    (to rename relations for convenience).
+    \item A useful case for \textbf{as} in the \textbf{from} clause is when a 
+    relation is compared to itself, in which case the relation is given two 
+    names.
+    \item The identifiers used to rename relations are called 
+    \textbf{correlation names} in the SQL standard. Other names are 
+    \textbf{table alias, correlation variable, tuple variable}.
+\end{enumerate}
+
+\subsection{String Operations}
+\begin{enumerate}
+    \item Strings in SQL are enclosed in single or double quotes (`' or ``").
+    \item If a string contains one quote, we can use the other quote to enclose 
+    it.
+    \item Functions on strings in SQL:
+    \begin{enumerate}
+        \item \textit{Concatenation} using $||$.
+        \item Convert to uppercase using \textbf{upper}($s$).
+        \item Convert to lowercase using \textbf{lower}($s$).
+        \item Remove spaces at the end of the string using \textbf{trim}($s$).
+    \end{enumerate}
+    \item Pattern matching in SQL using the \textbf{like} or \textbf{not like} 
+    operator. Special characters used are:
+    \begin{enumerate}
+        \item Percent (\%) to match any substring.
+        \item Underscore (\_) to match any character.
+    \end{enumerate}
+    \item Special characters can be escaped for literal usage, such as 
+    \textbackslash\%, \textbackslash\textbackslash, and so on.
+\end{enumerate}
+
+\subsection{Attribute Specification in the Select Clause}
+\begin{enumerate}
+    \item An asterisk (*) can be used int the \textbf{select} clause to denote 
+    \textit{all attributes}.
+    \item For all attributes in a certain table, use \texttt{tableName.*}. For
+    all attributes in \textit{all} tables, simply use *.
+\end{enumerate}
+
+\subsection{Ordering the Display of Tuples}
+\begin{enumerate}
+    \item \textbf{order by} clause in SQL allows the ordering of tuples in a 
+    relation.
+    \item Syntax (in \textbf{where} clause): $\ldots$ \textbf{order by $A_1$, 
+    $A_2$,} $\ldots$ 
+    \item Default behaviour is ascending order. To specify the sort order per 
+    attribute, we use \textbf{order by $A_1$ (asc|desc), $A_2$ (asc|desc), ...}.
+\end{enumerate}
+
+\subsection{Where-Clause Predicates}
+\begin{enumerate}
+    \item For simplifying \textbf{where} clauses, SQL includes a \textbf{(not) 
+    between} clause.
+    \item Syntax (in \textbf{where} clause): ... \textbf{(not) between $v_1$ 
+    and $v_2$} ...
+    \item Note that both end values are \textit{inclusive} for this clause.
+    \item Multiple equalities can be combined by using a \textit{row constructor}
+    () instead of using \textbf{and}.
+\end{enumerate}
+
+\section{Set Operations}
+
+SQL supports three set operations: \textbf{union, intersect} and \textbf{except}.
+
+\subsection{The Union Operation}
+\begin{enumerate}
+    \item Syntax: $r_1$ \textbf{union} $r_2$, where
+    \begin{enumerate}
+        \item \textbf{union} denotes the union operation.
+        \item $r1$ and $r2$ are compatible relations or subqueries yielding 
+        compatible relations.
+    \end{enumerate}
+    \item The \textbf{union} operation eliminates duplicates unlike the 
+    \textbf{select} clause. To retain duplicates, use \textbf{union all}.
+\end{enumerate}
+
+\subsection{The Intersect Operation}
+\begin{enumerate}
+    \item Syntax: $r_1$ \textbf{intersect} $r_2$, where
+    \begin{enumerate}
+        \item \textbf{intersect} denotes the except operation.
+        \item $r1$ and $r2$ are compatible relations or subqueries yielding 
+        compatible relations.
+    \end{enumerate}
+    \item The \textbf{intersect} operation eliminates duplicates unlike the 
+    \textbf{select} clause. To retain duplicates, use \textbf{intersect all}.
+\end{enumerate}
+
+\subsection{The Except Operation}
+\begin{enumerate}
+    \item Syntax: $r_1$ \textbf{except} $r_2$, where
+    \begin{enumerate}
+        \item \textbf{except} denotes the except operation.
+        \item $r1$ and $r2$ are compatible relations or subqueries yielding 
+        compatible relations.
+    \end{enumerate}
+    \item The \textbf{except} operation eliminates duplicates unlike the 
+    \textbf{select} clause. To retain duplicates, use \textbf{except all}.
+\end{enumerate}
+
+\section{Null Values}
+\begin{enumerate}
+    \item Presents special problems while evaluating arithmetic operations and
+    predicates.
+    \item The result of an arithmetic operation involving \textbf{null} is 
+    \textit{always} \textbf{null}.
+    \item The result of a comparison involving \textbf{null} is \textit{always} 
+    \textbf{unknown}.
+    \item Behaviour of \textbf{unknown} (T statnds for True, F for False, and U
+    for unknown):
+    
+    \begin{table}[!ht]
+        \centering
+        \begin{tabularx}{\columnwidth}{|X|X|X|X|X|}
+            \hline
+            \textbf{$v_1$} & \textbf{$v_2$} & \textbf{and} & 
+            \textbf{or} & \textbf{not} \\ 
+            \hline
+            T & U & U & T & F \\
+            \hline
+            F & U & F & U & T \\
+            \hline
+            U & U & U & U & U \\
+            \hline
+        \end{tabularx}
+    \end{table}
+    
+    \item If a \textbf{where} clause evaluates to \textbf{false} or 
+    \textbf{unknown} for a tuple, that tuple is not included in the resulting 
+    relation.
+    \item To test for a \textbf{null} value, SQL includes the \textbf{is (not)
+    null} predicate. Similarly for \textbf{is (not) unknown}.
+\end{enumerate}
+
+\section{Aggregate Functions}
+
+\textbf{Aggregate Functions:} Functions that take a collection of values as 
+input and return a single value. SQL has five standard built-in aggregate 
+functions:
+
+\begin{table}[!ht]
+    \centering
+    \begin{tabularx}{\columnwidth}{|X|X|}
+        \hline
+        \textbf{Aggregate Function} & \textbf{SQL Function} \\
+        \hline 
+        Average & \textbf{avg} \\
+        \hline 
+        Minimum & \textbf{min} \\
+        \hline 
+        Maximum & \textbf{max} \\
+        \hline 
+        Total & \textbf{sum} \\
+        \hline 
+        Count & \textbf{count} \\
+        \hline
+    \end{tabularx}
+\end{table}
+
+\subsection{Basic Aggregation}
+\begin{enumerate}
+    \item The result of applying a simple aggregate function is a single 
+    attribute containing a single aggregate value.
+    \item We can rename the atribute to something more convenient using the 
+    \textbf{as} clause.
+    \item Usage of \textbf{distinct}:
+    \begin{enumerate}
+        \item Eliminate duplicates in aggregate functions. Use \textbf{distinct}
+        in the aggregate expression.
+        \item The use of \textbf{distinct} with \textbf{count}(*) is \textbf{not}
+        allowed.
+        \item Using \textbf{distinct} with \textbf{max} and \textbf{min} is 
+        legal, but makes no difference.
+        \item To specify duplicate retention, we use \textbf{all}, but it is 
+        the default behaviour.
+    \end{enumerate}
+\end{enumerate}
+
+\subsection{Aggregation with Grouping}
+\begin{enumerate}
+    \item To group sets of tuples for applying aggregates, we use 
+    \textbf{group by} clause. Tuples with the same attribute on all values in 
+    the \textbf{group by} clause are placed in one group.
+    \item When \textbf{group by} is used, attributes that appear in the 
+    \textbf{select} clause without being aggregated MUST appear in the 
+    \textbf{group by} clause.
+\end{enumerate}
+
+\subsection{The Having Clause}
+\begin{enumerate}
+    \item Applies to groups constructed by the \textbf{group by} clause.
+    \item Comes after \textbf{group by} clause in a query.
+    \item Like the \textbf{select} clause, any attribute that is present in the 
+    \textbf{having} clause without aggregation MUST appear in the 
+    \textbf{group by} clause.
+    \item For a query containing aggregation, following are the rules to 
+    evaluate its result:
+    \begin{enumerate}
+        \item Evaluate the \textbf{from} clause to get a relation.
+        \item Apply the predicate of the \textbf{where} clause.
+        \item Group these tuples using the \textbf{group by} clause.
+        \item Apply the \textbf{having} clause to each group.
+        \item Project selected attributes mentioned in the \textbf{select} clause.
+    \end{enumerate}
+\end{enumerate}
+
+\subsection{Aggregation with Null and Boolean Values}
+\begin{enumerate}
+    \item All aggregate functions except \textbf{count}(*) \textit{ignore} null 
+    values in their input collection.
+    \item The \textbf{count} of an enpty collection is defined to be 0. Other 
+    aggregate operations return \textbf{null} on an empty collection.
+    \item For \textbf{boolean} data types, \textbf{some} and \textbf{every} 
+    can be used to compute the disjunction (\textbf{or}) conjunction 
+    (\textbf{and}) of the values.
+\end{enumerate}
+
+\section{Nested Subqueries}
+
+A \textbf{subquery} is a \textbf{select-from-where} expression nested inside 
+another SQL query. Use cases of subqueries are illustrated below.
+
+\subsection{Set Membership}
+\begin{enumerate}
+    \item \textbf{(not) in} connective tests for set membership.
+    \item Can also use these operators in enumerated sets, such as 
+    \texttt{(val1, val2, ...)}.
+    \item Use row constructors to test set membership in another relation 
+    (if supported by the database system).
+\end{enumerate}
+
+\subsection{Set Comparison}
+\begin{enumerate}
+    \item To check if an element returns \textbf{true} on comparison with at 
+    least one element of another relation, use \textbf{(op) some}, where 
+    \textbf{op} is a comparison operator.
+    \item Note that =\textbf{some} is \textit{identical} to \textbf{in}, 
+    while <>\textbf{some} is \textit{not identical} to \textbf{not in}.
+    \item To check if an element returns \textbf{true} on comparison with all 
+    elements of another relation, use \textbf{(op) all}, where \textbf{op} is 
+    the comparison operator.
+    \item Note that <>\textbf{some} is \textit{identical} to \textbf{not in}, 
+    while =\textbf{all} is \textit{not identical} to \textbf{in}.
+\end{enumerate}
+
+\subsection{Test for Empty Relations}
+
+SQL provides an \textbf{exists} construct that returns \textbf{true} if the 
+argument relation (subquery) is nonempty. A \textbf{not exists} construct is 
+also provided that mirrors this functionality.
+
+\subsection{Test for the Absence of Duplicate Tuples}
+
+SQL provides a \textbf{unique} construct for testing whether the argument 
+subquery has no duplicate tuples. A \textbf{not unique} construct that mirrors 
+this action is also provided.
+
+\subsection{Subqueries in the From Clause}
+\begin{enumerate}
+    \item A \textbf{select-from-where} query returns a relation, and hence can 
+    be nested in the \textbf{from} clause of another \textbf{select-from-where} 
+    query.
+    \item Such subqueries can also be given names using the \textbf{as} 
+    constructor (depends on SQL implementation).
+    \item Nested subqueries in the \textbf{from} clause cannot use correlation 
+    variables from other relations in the \textbf{from} clause.
+    \item Since SQL:2003 a subquery in the \textbf{from} clause that is 
+    prefixed by \textbf{lateral} can access other correlation variables.
+\end{enumerate}
+
+\subsection{The With Clause}
+\begin{enumerate}
+    \item The \textbf{with} clause provides a way to define a temporary relation 
+    whose definition is available only to the query in which the \textbf{with} 
+    clause occurs.
+    \item Introduced in SQL:1999.
+\end{enumerate}
+
+\subsection{Scalar Subqueries}
+\begin{enumerate}
+    \item A subquery that returns only one tuple containing a single attribute 
+    is called a \textbf{scalar subquery}.
+    \item Can occur in \textbf{select, where} and \textbf{having} clauses.
+\end{enumerate}
+
+\subsection{Scalar Without a From Clause}
+\begin{enumerate}
+    \item Certain queries may have subqueries that use a \textbf{from} clause 
+    but the top-level query does not.
+    \item This may lead to an error in some systems. In such cases a 
+    \textit{dummy} relation is provided to act as a \textit{placeholder} in 
+    the \textbf{from} clause of the top level query, such as \textit{dual} in 
+    Oracle.
+\end{enumerate}
+
+\section{Modification of the Database}
+
+\subsection{Deletion}
+\begin{enumerate}
+    \item  SQL syntax:
+    \begin{lstlisting}
+    delete from $r$
+    where $P$;
+    \end{lstlisting}
+    \item If the \textbf{where} clause is omitted, \textit{all} tuples in 
+    the argument relation are deleted.
+    \item The \textbf{delete} command operates on \textit{only} one 
+    relation.
+    \item ALL tuples in the relation are \textit{tested} before deletion.
+\end{enumerate}
+
+\subsection{Insertion}
+\begin{enumerate}
+    \item To insert into a relation, a single tuple or a relation constaining 
+    a set of tuples is specified.
+    \item SQL syntaxes:
+    \begin{lstlisting}
+    insert into tableName(Schema) values (v_1, v_2, ..., v_n);
+    insert into tableName(Schema) <subquery>;
+    \end{lstlisting}
+    \textbf{Note:} The subquery must be chosen carefully. For example, queries 
+    like
+    \begin{lstlisting}
+    insert into r select * from r;
+    \end{lstlisting}
+    can insert an infinite number of tuples into $r$ if $r$ does not have a primary key constraint.
+    \item One can also insert tuples containing \textbf{null} values, provided 
+    the attribute is declared in the realtion schema as \textbf{not null}.
+\end{enumerate}
+
+\subsection{Updates}
+\begin{enumerate}
+    \item The \textbf{update} statement is used to modify \textit{some} values 
+    of the tuples.
+    \item SQL syntax:
+    \begin{lstlisting}
+    update table
+    set (attr_1, attr_2, \dots, attr_n) = (v_1, v_2, \dots, v_n)
+    where  pred;
+    \end{lstlisting}
+    \item To have multiple updates occur simutaneously without one affecting 
+    the other, a \textbf{case} construct is provided. The syntax for this is:
+    \begin{lstlisting}
+    update table
+    set A = case
+        when pred_1 then v_1
+        when pred_2 then v_2
+        \dots
+        else v_0
+    end;
+    \end{lstlisting}
+    \item We can also use scalar subqueries in \textbf{set} clause. The 
+    \textbf{case} construct permits us to handle nulls if they are present.
+\end{enumerate}
+\end{document}

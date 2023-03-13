@@ -74,7 +74,10 @@ columns=fullflexible
 \providecommand{\rbrak}[1]{\ensuremath{\left.#1\right)}}
 \providecommand{\cbrak}[1]{\ensuremath{\left\{#1\right\}}}
 \providecommand{\lcbrak}[1]{\ensuremath{\left\{#1\right.}}
+\providecommand{\ceil}[1]{\ensuremath{\left\lceil{#1}\right\rceil}}
+\providecommand{\floor}[1]{\ensuremath{\left\lfloor{#1}\right\rfloor}}
 \providecommand{\rcbrak}[1]{\ensuremath{\left.#1\right\}}}
+\providecommand{\exval}[1]{\ensuremath{\mathbb{E}\left[#1\right]}}
 \theoremstyle{remark}
 \newtheorem{rem}{Remark}
 \newcommand{\sgn}{\mathop{\mathrm{sgn}}}
@@ -102,10 +105,10 @@ columns=fullflexible
 \title{Chapter 1: Source Coding}
 \author{Gautam Singh}
 \maketitle
+\tableofcontents
 \bigskip
 
 \section{Conventions}
-
 \begin{enumerate}[label=\thesection.\arabic*, ref=\thesection.\theenumi]
     \item $X$ denotes a random variable.
     \item $\mathcal{X}$ denotes the alphabet.
@@ -114,9 +117,8 @@ columns=fullflexible
 \end{enumerate}
 
 \section{Uncertainity and Information}
-
 \begin{enumerate}[label=\thesection.\arabic*, ref=\thesection.\theenumi]
-    \item \textbf{Self Information:} The self information of the event $X = x$ 
+    \item The \textbf{self information} of the event $X = x$ 
     is defined as
     \begin{align}
         I(x) \define \log\brak{\frac{1}{\log{p\brak{x}}}} = -\log\brak{p(x)}
@@ -130,7 +132,7 @@ columns=fullflexible
         \item If the base is $e$, the units are \textbf{nats}.
         \item If the base is 10, the units are \textbf{dits}.
     \end{enumerate}
-    \item \textbf{Mutual Information:} The mutual information between $x$ and $y$ 
+    \item The \textbf{mutual information} between $x$ and $y$ 
     is defined as
     \begin{align}
         I(x;y) \define \log\brak{\frac{p(x|y)}{p(x)}}
@@ -144,17 +146,15 @@ columns=fullflexible
         &= \log\brak{\frac{p(y|x)}{p(y)}} = I(y;x)
         \label{eq:mutual-info-order}
     \end{align}
-    \item Can be interpreted as the information event $Y = y$ provides about
+    It can be interpreted as the information event $Y = y$ provides about
     $X = x$. 
-    \item Equation \eqref{eq:mutual-info-order} can be interpreted as follows
-    \begin{quote}
-    The amount of information about $X = x$ provided by $Y = y$ is the same as 
-    the amount of information about $Y = y$ provided by $X = x$.
-    \end{quote}
+    \item From \eqref{eq:mutual-info-order}, the amount of information about 
+    $X = x$ provided by $Y = y$ is the same as the amount of information 
+    about $Y = y$ provided by $X = x$.
     \item Notice that when $X$ and $Y$ are independent, then $I(x;y) = 0$ as 
     $p(x,y) = p(x)p(y)$. Similarly, if $p(x|y) = 1$, then $I(x;y) = I(x)$.
-    \item \textbf{Conditional Self Information:} The conditional self information 
-    of the event $X = x$ given $Y = y$ is defined as
+    \item The \textbf{conditional self information} of the event $X = x$ given 
+    $Y = y$ is defined as
     \begin{align}
         I(x|y) \define \log\brak{\frac{1}{p(x|y)}} = -\log p(x|y)
         \label{eq:conditional-self-info}
@@ -170,8 +170,8 @@ columns=fullflexible
 \section{Average Mutual Information and Entropy}
 
 \begin{enumerate}[label=\thesection.\arabic*, ref=\thesection.\theenumi]
-    \item \textbf{Average Mutual Information:} The average mutual information
-    between random variables $X$ and $Y$ is defined as
+    \item The \textbf{average mutual information} between random variables $X$ 
+    and $Y$ is defined as
     \begin{align}
         I(X;Y) &\define \sum_{x\in\mathcal{X}}\sum_{y\in\mathcal{Y}}p(x,y)T(x;y) \label{eq:avg-mutual-info-1} \\
         &= \sum_{x\in\mathcal{X}}\sum_{y\in\mathcal{Y}}p(x,y)\log\brak{\frac{p(x,y)}{p(x)p(y)}} \label{eq:avg-mutual-info-2} \\
@@ -183,8 +183,8 @@ columns=fullflexible
     \item When $X$ and $Y$ are independent, \eqref{eq:avg-mutual-info-5} gives 
     $I(X;Y) = 0$, that is, there is no average information between $X$ and $Y$.
     \item In general, $I(X;Y) \ge 0$ with equality iff $X$ and $Y$ are independent.
-    \item \textbf{Average Self Information/Entropy:} The average self information 
-    or entropy of a random variable $X$ is defined as
+    \item The \textbf{average self information} or \textbf{entropy} of a random 
+    variable $X$ is defined as
     \begin{align}
         H(X) &\define \sum_{x\in\mathcal{X}}p(x)I(x) \label{eq:entropy-1} \\
         &= \sum_{x\in\mathcal{X}}p(x)\log\brak{\frac{1}{p(x)}} \label{eq:entropy-2} \\
@@ -202,9 +202,8 @@ columns=fullflexible
     \end{align}
     which is known as the \textit{binary entropy function} and denoted by 
     $h_2(p)$.
-    \item \textbf{Average Conditional Self Information/Conditional Entropy:}
-    The average self information or conditional entropy of a random variable 
-    $X$ given a random variable $Y$ is defined as
+    \item The \textbf{average self information} or \textbf{conditional entropy} 
+    of a random variable $X$ given a random variable $Y$ is defined as
     \begin{align}
         H(X|Y) &= \sum_{x\in\mathcal{X}}\sum_{y\in\mathcal{Y}}p(x,y)\log\frac{1}{p(x|y)} \label{eq:cond-entropy-1} \\
         &= E\sbrak{\log\frac{1}{p(X|Y)}} \label{eq:cond-entropy-2} \\
@@ -218,8 +217,8 @@ columns=fullflexible
     \item Note that $I(X;Y) \ge 0 \implies H(X) \ge H(X|Y)$. Thus, conditioning 
     can only decrease entropy. In case it does not, $X$ and $Y$ are 
     independent.
-    \item \textbf{Joint Entropy:} The joint entropy of a pair of discrete random
-    variables $(X,Y)$ with a joint pmf $p(x,y)$ is defined as
+    \item The \textbf{joint entropy} of a pair of discrete random variables 
+    $(X,Y)$ with a joint pmf $p(x,y)$ is defined as
     \begin{align}
         H(X,Y) &\define \sum_{x\in\mathcal{X}}\sum_{y\in\mathcal{Y}}p(x,y)\log\frac{1}{p(x,y)} \label{eq:joint-entropy-1} \\
         &= -\sum_{x\in\mathcal{X}}\sum_{y\in\mathcal{Y}}p(x,y)\log{p(x,y)} \label{eq:joint-entropy-2} \\
@@ -252,9 +251,9 @@ columns=fullflexible
 \section{Information Measures for Continuous Random Variables}
 
 \begin{enumerate}[label=\thesection.\arabic*, ref=\thesection.\theenumi]
-    \item \textbf{Average Mutual Information:} The average mutual information
-    between two continuous random variables $X$ and $Y$ with joint pdf $p(x,y)$
-    and marginal pdfs $p(x)$ and $p(y)$ respectively is defined as
+    \item The \textbf{average mutual information} between two continuous random 
+    variables $X$ and $Y$ with joint pdf $p(x,y)$ and marginal pdfs $p(x)$ and 
+    $p(y)$ respectively is defined as
     \begin{align}
         I(X;Y) \define \int\limits_{-\infty}^{\infty}\int\limits_{-\infty}^{\infty}p(x)p(y|x)\log\frac{p(y|x)}{p(y)}\ dxdy
         \label{eq:mutual-info-cont}
@@ -263,15 +262,15 @@ columns=fullflexible
     applied here, such physical interpretations will not work with other 
     quantities. This is because the information in a continuous random variable
     is infinite. Hence, differential entropy is defined.
-    \item \textbf{Differential Entropy:} The differential entropy of a continuous
-    random variable $X$ is defined as
+    \item The \textbf{differential entropy} of a continuous random variable $X$ 
+    is defined as
     \begin{align}
         h(X) \define -\int\limits_{-\infty}^{\infty}p(x)\log p(x)\ dx
         \label{eq:diff-entropy}
     \end{align}
     While there is no physical meaning for this quantity, the units remain bits.
-    \item \textbf{Average Conditional Entropy:} The average conditional entropy 
-    of a continuous random variable $X$ given $Y$ is defined as 
+    \item The \textbf{average conditional entropy} of a continuous random variable 
+    $X$ given $Y$ is defined as 
     \begin{align}
         h(X|Y) \define -\int\limits_{-\infty}^{\infty}\int\limits_{-\infty}^{\infty}p(x,y)\log p(x|y)\ dxdy
         \label{eq:avg-cond-entropy-cont}
@@ -298,9 +297,8 @@ columns=fullflexible
 
 \section{Relative Entropy}
 \begin{enumerate}[label=\thesection.\arabic*, ref=\thesection.\theenumi]
-    \item \textbf{Relative Entropy or Kullback Leibler (KL) Distance:} The 
-    relative entropy of Kullback Leibler Distance between two pmfs $p(x)$ 
-    and $q(x)$ is defined as 
+    \item The \textbf{relative entropy} or \textbf{Kullback Leibler Distance} 
+    between two pmfs $p(x)$ and $q(x)$ is defined as 
     \begin{align}
         D\brak{p\|q} &= \sum_{x\in\mathcal{X}}p(x)\log\brak{\frac{p(x)}{q(x)}} \label{eq:dkl-1} \\
         &= E\sbrak{\log\brak{\frac{p(X)}{q(X)}}} \label{eq:dkl-2}
@@ -310,16 +308,16 @@ columns=fullflexible
     \begin{align}
         I(X;Y) = D(p(x,y)\|p(x)p(y)) \label{eq:mutual-info-dkl}
     \end{align}
-    \item \textbf{Jensen Shannon Distance:} The Jensen Shannon distance between 
-    two pmfs $p(x)$ and $q(x)$ is defined as 
+    \item The \textbf{Jensen Shannon distance} between two pmfs $p(x)$ and 
+    $q(x)$ is defined as 
     \begin{align}
         JSD\brak{p\|q} \define \frac{1}{2}\brak{D\brak{p\|m} + D\brak{q\|m}}
         \label{eq:jsd}
     \end{align}
     It is sometimes denoted by $D_{JS}\brak{p\|q}$, and referred to as 
     \textbf{Jensen Shannon Divergence} or \textbf{Information Radius}.
-    \item \textbf{Convex Function:} A function $f$ defined on $\sbrak{0,1}$ is 
-    said to be convex if
+    \item A function $f$ defined on $\sbrak{0,1}$ is said to be \textbf{convex} 
+    if
     \begin{align}
         f\brak{\lambda x_1 + \brak{1 - \lambda}x_2} \le \lambda f\brak{x_1} + \brak{1-\lambda}f\brak{x_2}
         \label{eq:convex}
@@ -330,4 +328,403 @@ columns=fullflexible
     \item $D(p\|q)$ is convex in the pair $\brak{p,q}$ and $H(p)$ is concave in $p$.
 \end{enumerate}
 
+\section{Source Coding Theorem}
+\begin{enumerate}[label=\thesection.\arabic*, ref=\thesection.\theenumi]
+    \item A \textbf{code} is a set of vectors called \textbf{codewords}.
+    \item A code where all codewords have the same length is called 
+    \textbf{fixed length code (FLC)}.
+    \item When source symbols are not equally probable, it is more efficient to 
+    use a \textbf{variable length code (VLC)}.
+    \item A \textbf{prefix code} is a code in which no codeword is a prefix of 
+    any other codeword. This condition is also called the \textbf{prefix 
+    condition}. Prefix codes are also called \textbf{instantaneous codes} since
+    they can be decoded without any delay.
+    \item \textbf{Kraft Inequality:} A necessary and sufficient condition for 
+    the existence of a binary code with codewords of lengths $n_1 \le n_2 
+    \le \ldots \le n_L$ satisfying the prefix condition is 
+    \begin{align}
+        \sum_{k=1}^L2^{-n_k} \le 1
+        \label{eq:kraft}
+    \end{align}
+    \begin{proof}
+        Consider a binary tree of depth $n_L$. For the necessary condition, note 
+        that selecting a codeword of length $n_i$ eliminates $2^{n_L-n_i}$ 
+        terminal nodes, since the code is prefix-free. Thus, at the node of order 
+        $j$, the fraction of terminal nodes eliminated is 
+        \begin{align}
+            \sum_{i=1}^j2^{-n_i} < \sum_{i=1}^L2^{-n_i} \le 1
+            \label{eq:kraft-necessary}
+        \end{align}
+        and we can create a prefix-free code with the given lengths.
+
+        To prove the sufficient condition, note that the total number of terminal 
+        nodes eliminated is upto $2^{n_L}$. Thus,
+        \begin{align}
+            \sum_{i=1}^L2^{n_L-n_i} &\le 2^{n_L} \\
+            \implies \sum_{i=1}^L2^{-n_i} &\le 1
+            \label{eq:kraft-sufficient}
+        \end{align} 
+    \end{proof}
+    \item The Kraft inequality holds for $M$-ary code, where $M > 1$ is an integer.
+    \item \textbf{Source Coding Theorem:} It is possible to construct a 
+    prefix-free code that has an average length $\bar{L}$ satisfying
+    \begin{align}
+        H(X) \le \bar{L} < H(X) + 1
+        \label{eq:source-coding}
+    \end{align}
+    \begin{proof}
+        Let the length of the codeword of symbol $x$ be $l(x)$. Then,
+        \begin{align}
+            H(X) - \bar{L} &= \sum_{x\in\mathcal{X}}p(x)\log\frac{2^{-l(x)}}{p(x)} \label{eq:src-ineq-1} \\
+            &\le \log e\sum_{x\in\mathcal{X}}p(x)\brak{\frac{2^{-l(x)}}{p(x)} - 1} \\
+            &= \log e\brak{\sum_{x\in\mathcal{X}}2^{-l(x)}-1} \le 0
+            \label{eq:src-ineq-2}
+        \end{align}
+        We use the fact that $\ln x \le x - 1$ in \eqref{eq:src-ineq-1} and the 
+        Kraft inequality in \eqref{eq:src-ineq-2}. This proves the lower bound
+        on $\bar{L}$.
+
+        To prove the upper bound, choose codewords for each symbol $x$ satisfying
+        \begin{align}
+            2^{-l(x)} \le p(x) \le 2^{-l(x) + 1}
+            \label{eq:src-len-cond}
+        \end{align}
+        Consider the left hand side of \eqref{eq:src-len-cond}. Summing over all symbols,
+        \begin{align}
+            \sum_{x\in\mathcal{X}}2^{-l(x)} \le \sum_{x\in\mathcal{X}}p(x) = 1
+            \label{eq:src-kraft}
+        \end{align}
+        This satisfies the Kraft inequality, hence such a codeword can be selected.
+        Now, considering the right hand side of \eqref{eq:src-len-cond}, taking 
+        logarithms gives
+        \begin{align}
+            \log p(x) < 1 - l(x) \\
+            \implies \log p(x) + l(x) < 1
+            \label{eq:src-len-bound}
+        \end{align} 
+        Thus, using \eqref{eq:src-len-bound},
+        \begin{align}
+            \bar{L} - H(X) &= \sum_{x\in\mathcal{X}}p(x)\brak{l(x) + \log p(x)} \\
+            &< \sum_{x\in\mathcal{X}}p(x) = 1
+        \end{align}
+        which proves the upper bound.
+    \end{proof}
+    \item The source coding theorem tells us that the minimum number of bits 
+    needed to represent a discrete random variable is at least the entropy of 
+    the random variable.
+    \item The \textbf{efficiency} of a prefix-free code is defined as 
+    \begin{align}
+        \eta \define \frac{H(X)}{\bar{L}}
+        \label{eq:efficiency-code}
+    \end{align}
+    Note that $\eta \le 1$ by the source coding theorem.
+\end{enumerate}
+
+\section{Huffman Coding}
+\begin{enumerate}[label=\thesection.\arabic*, ref=\thesection.\theenumi]
+    \item Variable length encoding algorithm based on source symbol probabilities.
+    \item Steps of algorithm:
+    \begin{enumerate}
+        \item Arrange the source symbols in \textit{decreasing} order of 
+        probabilities.
+        \item Take the smallest two probabilities, and tie them together.
+        Add their probabilities and write it on the combined node. Label the
+        two branches with a `1' and `0'.
+        \item Repeat this with the next two smallest probabilities, treating 
+        the computed probability as the probability of a new symbol, till one
+        probability is left and it equals 1. This is the construction of a 
+        \textbf{Huffman Tree.}
+        \item To find the codeword, follow the branches from the final node 
+        back to the symbol.
+        \item \textbf{Note:} We can have more than one possible Huffman coding 
+        scheme. 
+    \end{enumerate}
+    \item Optimality is achieved when the entropy of each symbol is an integer.
+    Thus, the probabilities of each symbol is a negative power of 2.
+    \item \textbf{Note:} A $D$-adic distribution is a probability distribution
+    where the probability of each symbol is $D^{-n}$ for some positive integer 
+    $n$. 
+    \item To reduce $\bar{L}$, we can use blocks of length $B$. In this case, 
+    the source coding theorem gives
+    \begin{align}
+        BH(X) &\le \bar{L}_B < BH(X)+1 \\
+        \implies H(X) &\le \frac{\bar{L}_B}{B} = \bar{L} < H(X)+\frac{1}{B}
+        \label{eq:huffman-bound}
+    \end{align}
+    Hence, we can make the expected number of bits per symbol as arbitrarily 
+    close to $H(X)$ as possible by varying $B$.
+\end{enumerate}
+
+\section{Shannon-Fano-Elias Coding}
+\begin{enumerate}[label=\thesection.\arabic*, ref=\thesection.\theenumi]
+    \item \textbf{Shannon codes} are those codes that use codewords of length
+    \begin{align}
+        l(x) = \ceil{\log\frac{1}{p(x)}}
+        \label{eq:l-p-ceil}
+    \end{align}
+    \item The \textbf{cumulative distribution function} (CDF) is given by
+    \begin{align}
+        F\brak{x} \triangleq \sum_{z\le x}p(z)
+        \label{eq:cdf-def}
+    \end{align}
+    \item To encode the symbols, we define a modified CDF as follows
+    \begin{align}
+        \bar{F}\brak{x} \triangleq \sum_{z<x}p(z) + \frac{1}{2}p(x)
+        \label{eq:cdf-mod}
+    \end{align}
+    Clearly, $x \neq y \iff F(x) \neq F(y)$.
+    \item To represent real $F(x)$ in a finite number of bits, we round it off
+    and use only the first $l(x)$ bits. Thus, if we consider 
+    \begin{align}
+        l(x) = \ceil{\log\frac{1}{p(x)}} + 1
+        \label{eq:l-x-choose}
+    \end{align}
+    then we can write, using the definition of rounding off,
+    \begin{align}
+        \bar{F}(x) - \floor{\bar{F}(x)}_{l(x)} &\le \frac{1}{2^{l\brak{x}}} \\
+        &= \frac{1}{2^{\ceil{\log\frac{1}{p(x)}}+1}} \\
+        &< \frac{1}{2^{\brak{\log\frac{1}{p(x)}+1}}} = \frac{p(x)}{2} \\
+        &= \bar{F}(x) - F(x-1)
+        \label{eq:int-fbar}
+    \end{align}
+    \item Hence, $\floor{\bar{F}(x)}_{l(x)}$ lies between the step corresponding 
+    to $x$, and $l(x)$ bits are sufficient to describe $x$.
+    \item The interval corresponding to any codeword is of length $2^{-l(x)} < \frac{p(x)}{2}$,
+    which is less than half the step corresponding to $x$.
+    \item The expected length of the codeword is
+    \begin{align}
+        \bar{L} &= \sum_{x}p(x)l(x) \\
+        &= \sum_{x}p(x)\brak{\ceil{\log\frac{1}{p(x)}}+1} \\
+        &< H(X) + 2
+        \label{eq:shan-bound}
+    \end{align}
+    This encoding scheme therefore achieves codeword length within two bits of
+    the entropy.
+\end{enumerate}
+
+\section{Arithmetic Coding}
+\begin{enumerate}[label=\thesection.\arabic*, ref=\thesection.\theenumi]
+    \item No restrictions as in Huffman coding to achieve optimality, since 
+    we will encode each symbol with an interval in $[0,1]$.
+    \item Intervals are chosen according to probability, and neseted in the
+    selected interval chosen according to the probability of the symbol 
+    shown.
+    \item More likely symbols add less bits to the message since they do not 
+    reduce the interval by much.
+\end{enumerate}
+
+\section{Lempel-Ziv Algorithm}
+\begin{enumerate}[label=\thesection.\arabic*, ref=\thesection.\theenumi]
+    \item It is a \textbf{universal source coding} algorithm.
+    \item Compress an arbitrary sequence of bits by coding a prefix string
+    from the previously coded strings plus one extra bit. Add this 
+    \textbf{phrase} as a potential prefix to a dictionary.
+    \item In encoding, specify the location of the prefix phrase in the 
+    dictionary and append the new letter. Note that the null prefix has
+    the location 0.
+    \item May not perform well on smaller strings, but for larger documents,
+    the compression approaches optimum.
+    \item Table size must either be large enough, or must contain frequently
+    used prefixes.
+    \item Used in zipping and unzipping files or folders.
+\end{enumerate}
+
+\section{Run Length Encoding}
+\begin{enumerate}[label=\thesection.\arabic*, ref=\thesection.\theenumi]
+    \item Reduce the size of a repeating string of characters, called a
+    \textbf{run}.
+    \item Typically each run is encoded in two bytes: the repeating string
+    and the number of repetitions.
+    \item Not high compression ratios, but easy and quick to implement
+    and execute. Used in JPG, TIFF, BMP file formats. Suitable for FAX 
+    images.
+\end{enumerate}
+
+\section{Rate Distortion Function}
+\begin{enumerate}[label=\thesection.\arabic*, ref=\thesection.\theenumi]
+    \item Suppose that an analog source $X(t)$ is quantized. Then, let the 
+    actual source samples be $x_k$ and the quantized samples be $\tilde{x}_k$.
+    \item The \textbf{squared-error distortion} is defined as 
+    \begin{align}
+        d\brak{x_k, \tilde{x}_k} \triangleq \brak{x_k - \tilde{x}_k}^2
+        \label{eq:sqr-err-def}
+    \end{align}
+    Similar distortion measures could be defined as 
+    \begin{align}
+        d\brak{x_k, \tilde{x}_k} \triangleq \abs{x_k - \tilde{x}_k}^p
+        \label{eq:dis-err-def}
+    \end{align}
+    \item The \textbf{Hamming Distortion} is defined as
+    \begin{align}
+        d\brak{x_k, \tilde{x}_k} \triangleq
+        \begin{cases}
+            0 & x_k = \tilde{x}_k \\
+            1 & x_k \neq \tilde{x}_k
+        \end{cases}
+    \end{align}
+    \item The \textbf{Distortion} between a sequence of $n$ samples $X_n$ 
+    and their corresponding quantized values $\tilde{X}_n$ is defined as 
+    \begin{align}
+        D &\triangleq \exval{d\brak{X_n,\tilde{X}_n}} \\
+        &= \frac{1}{n}\sum_{k=1}^n\exval{d\brak{x_k, \tilde{x}_k}}
+        \label{eq:dis-seq-def}
+    \end{align}
+    \item The \textbf{Rate Distortion Function} or the 
+    \textbf{Information Rate Distortion Function} is the minimum rate 
+    (bits/source output) required to represent the output $\vec{X}$ of the 
+    memoryless source with a distortion less than or equal to $D$. It is 
+    defined as 
+    \begin{align}
+        R(D) &\triangleq \min_{p\brak{\tilde{x}|x}:\exval{d\brak{X,\tilde{X}}} \le D} I\brak{X;\tilde{X}}
+        \label{eq:rdf-def}
+    \end{align}
+    \item Properites of $R(D)$:
+    \begin{enumerate}
+        \item $R(D)$ is non-increasing in $D$.
+        \begin{proof}
+            Suppose $D' \ge D$. Then, by \eqref{eq:rdf-def}
+            \begin{align}
+                R(D) &= \min_{p\brak{\tilde{x}|x}:\exval{d\brak{X,\tilde{X}}} \le D} I\brak{X;\tilde{X}} \\
+                &\ge \min_{p\brak{\tilde{x}|x}:\exval{d\brak{X,\tilde{X}}} \le D'} I\brak{X;\tilde{X}} \\
+                &= R(D')
+            \end{align}
+            as required.
+        \end{proof}
+        \item $R(D)$ is convex in $D$.
+        \begin{proof}
+            Consider two rate distortion pairs $\brak{R_i,D_i}$. Suppose the 
+            joint distributions that achieves the minimum rate distortion 
+            $R\brak{D_i}$ are $p_i$, $i \in \cbrak{1,2}$, where
+            \begin{align}
+                p_i\brak{x,\tilde{x}} = p\brak{x}p_i\brak{\tilde{x}|x}
+            \end{align}
+            Define for $\lambda \in \sbrak{0,1}$, the joint distribution
+            \begin{align}
+                p_{\lambda} \triangleq \lambda p_1 + \brak{1-\lambda}p_2
+            \end{align}
+            Since distortion is a linear function of the joint distribution,
+            \begin{align}
+                D_\lambda = \lambda D_1 + \brak{1-\lambda}D_2
+            \end{align}
+            and also since mutual information is convex in the joint distribution,
+            \begin{align}
+                &R(D_\lambda) \le I_{p_\lambda}\brak{X;\tilde{X}} \\
+                &\le \lambda I_{p_1}\brak{X;\tilde{X}} + \brak{1-\lambda} I_{p_2}\brak{X;\tilde{X}} \\
+                &= \lambda R\brak{D_1} + \brak{1-\lambda}R\brak{D_2}
+                \label{eq:rdf-cvx}
+            \end{align}
+            as desired.
+        \end{proof}
+        \item $R(0) \le H(X)$
+        \begin{proof}
+            Setting $\hat{X} = X$, we get $d(X, \hat{X}) = 0$ and so 
+            $R(0) \le H(X)$.
+        \end{proof}
+        \item $R(D) = 0$ for $D \ge D_{\textrm{max}}$.
+        \begin{proof}
+            Since $I(X;\hat{X}) \ge 0$, we see that $R(D) \ge 0$ for all $D$.
+            However, $R\brak{D_{\textrm{max}}} = 0$. Thus, since $R(D)$ is 
+            non-increasing, the conclusion follows.
+        \end{proof}
+    \end{enumerate}
+    \item The minimum information rate necessary to represent the output of a
+    discrete time continuous amplitudeless memoryless Gaussian source with
+    variance $\sigma_x^2$, based on a mean square-error distortion measure per 
+    symbol is
+    \begin{align}
+        R_g\brak{D} =
+        \begin{cases}
+            \frac{1}{2}\log\brak{\frac{\sigma_x^2}{D}} & 0 < D \le \sigma_x^2 \\
+            0 & D > \sigma_x^2
+        \end{cases}
+        \label{eq:dist-gau}
+    \end{align}
+    \item Clearly, $R_g(D)$ is decreasing in D and if $D \ge \sigma_x^2$, then 
+    there is no need to transfer any information, since one can use independent 
+    zero-mean Gaussian noise samples with variance $D-\sigma_x^2$ for 
+    reconstruction.
+    \item There exists and encoding scheme that maps the source output into
+    codewords such that for any given distortion $D$, the minimum rate $R(D)$
+    bits per sample is sufficient to reconstruct the source output with an 
+    average distortion that is arbitrarily close to $D$.
+    \item The \textbf{Distortion Rate Function} for a discrete time, memoryless 
+    Gaussian source is defined as
+    \begin{align}
+        D_g\brak{R} \triangleq 2^{-2R}\sigma_x^2
+        \label{eq:drf-gau}
+    \end{align}
+    \item From \eqref{eq:drf-gau}, we can write
+    \begin{align}
+        10\log_{10}D_g\brak{R} = 10\log_{10}\sigma_x^2 - 6R
+    \end{align}
+    thus the mean square distortion decreases at a rate of 6 dB per bit.
+\end{enumerate}
+
+\section{Optimum Quantizer Design}
+\begin{enumerate}[label=\thesection.\arabic*, ref=\thesection.\theenumi]
+    \item We are required to design an optimum scalar quantizer that minimizes
+    some function of the quantization error $q = x - \tilde{x}$, where
+    $\tilde{x}$ is quantized value of $x$ and the amplitude varies according
+    to a probability function $p(x)$. The distortion is given by
+    \begin{align}
+        D = \int_{-\infty}^{\infty}f\brak{\tilde{x}-x}p\brak{x}dx
+        \label{eq:dist-quant}
+    \end{align}
+    \item A \textit{Lloyd-Max quantizer} is one in which the output levels are
+    selected for various input ranges. For an $L$-levle optimum quantizer, the
+    distortion is given by 
+    \begin{align}
+        D = \sum_{k=1}^L\int_{x_{k-1}}^{x_k}f(\tilde{x_k}-x)p(x)dx
+        \label{eq:dist-lloyd-max}
+    \end{align}
+    \item Differentiating \eqref{eq:dist-lloyd-max} with respect to
+    $\cbrak{x_k}$ and $\cbrak{\tilde{x_k}}$, we get the system of equations
+    \begin{align}
+        &f\brak{\tilde{x_k} - x_k} = f\brak{\tilde{x_{k+1}} - x_k},\ 1 \le k < L \\
+        &\int_{x_{k-1}}^{x_k}f'\brak{\tilde{x_k}-x}p(x)dx = 0
+        \label{eq:lloyd-max-cond}
+    \end{align}
+    Considering $f(x) = x^2$, we see that
+    \begin{align}
+        x_k = \frac{1}{2}\brak{\tilde{x_k}+\tilde{x_{k+1}}} \\
+        \int_{x_{k-1}}^{x_k}\brak{\tilde{x_k}-x}p(x)dx = 0
+        \label{eq:lloyd-max-sol}
+    \end{align}
+    \item We see that each quantized sample is represented by $R$ bits per 
+    sample. However, it is possible to have a more efficient VLC by 
+    associating probabilities $p_k$ to each range and using these probabilities
+    to design efficient VLCs.
+    \item To compare performance of different quantizers, we fix distortion
+    $D$ and then compare the average number of bits per sample.
+\end{enumerate}
+
+\section{Entropy Rate of a Stochastic Process}
+\begin{enumerate}[label=\thesection.\arabic*, ref=\thesection.\theenumi]
+    \item A \textbf{Stochastic Process} is a rule that associates each outcome 
+    of an experiment to a member of a set of random variables, whose 
+    distributions may be functions of time.
+    \item A stochastic process is said to be a \textbf{Stationary Process} 
+    if the joint distribution of any subset of random variables is 
+    time-invariant, that is,
+    \begin{align}
+        p\brak{X_1,\ldots,X_n} = p\brak{X_{1+t},\ldots,X_{n+t}}
+        \label{eq:def-stat}
+    \end{align}
+    for all $X_i \in X,\ 1 \le i \le n$ and for all shifts $t$.
+    \item A discrete stochastic process is said to be a \textbf{Markov Chain}
+    or a \textbf{Markov Process} if for all $n \ge 1$,
+    \begin{align}
+        p\brak{X_{n+1}|X_1,\ldots,X_n} = p\brak{X_{n+1}|X_n}
+        \label{eq:def-markov}
+    \end{align}
+    and we denote it as $X_1 \rightarrow X_2 \rightarrow \ldots \rightarrow X_n$.
+    Observe that the reverse order also holds, so we can also denote this as 
+    $X_1 \leftrightarrow X_2 \leftrightarrow \ldots \leftrightarrow X_n$.
+    \item The joint distribution of a Markov chain can be written as
+    \begin{align}
+        p\brak{x_1,\ldots,x_n} = p\brak{x_1}p\brak{x_2|x_1}\ldots p\brak{x_n|x_{n-1}}
+        \label{eq:joint-markov}
+    \end{align}
+    \item The \textbf{Data Processing Inequality} states that 
+\end{enumerate}
 \end{document}

@@ -1,0 +1,506 @@
+\documentclass[journal,12pt,twocolumn]{IEEEtran}
+\usepackage{setspace}
+\usepackage{gensymb}
+\usepackage{xcolor}
+\usepackage{caption}
+\singlespacing
+\usepackage{siunitx}
+\usepackage[cmex10]{amsmath}
+\usepackage{mathtools}
+\usepackage{hyperref}
+\usepackage{amsthm}
+\usepackage{mathrsfs}
+\usepackage{txfonts}
+\usepackage{stfloats}
+\usepackage{cite}
+\usepackage{cases}
+\usepackage{subfig}
+\usepackage{longtable}
+\usepackage{multirow}
+\usepackage{enumitem}
+\usepackage{mathtools}
+\usepackage{listings}
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows,positioning}
+\usepackage{circuitikz}
+\usepackage{tabularx}
+\let\vec\mathbf
+\DeclareMathOperator*{\Res}{Res}
+\renewcommand\thesection{\arabic{section}}
+\renewcommand\thesubsection{\thesection.\arabic{subsection}}
+\renewcommand\thesubsubsection{\thesubsection.\arabic{subsubsection}}
+
+\renewcommand\thesectiondis{\arabic{section}}
+\renewcommand\thesubsectiondis{\thesectiondis.\arabic{subsection}}
+\renewcommand\thesubsubsectiondis{\thesubsectiondis.\arabic{subsubsection}}
+\hyphenation{op-tical net-works semi-conduc-tor}
+
+\lstset{
+language=sql,
+frame=single, 
+breaklines=true,
+columns=fullflexible
+}
+\begin{document}
+\theoremstyle{definition}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{problem}{Problem}
+\newtheorem{proposition}{Proposition}[section]
+\newtheorem{lemma}{Lemma}[section]
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{example}{Example}[section]
+\newtheorem{definition}{Definition}[section]
+\newcommand{\BEQA}{\begin{eqnarray}}
+\newcommand{\EEQA}{\end{eqnarray}}
+\newcommand{\define}{\stackrel{\triangle}{=}}
+\newcommand{\myvec}[1]{\ensuremath{\begin{pmatrix}#1\end{pmatrix}}}
+\newcommand{\mydet}[1]{\ensuremath{\begin{vmatrix}#1\end{vmatrix}}}
+\bibliographystyle{IEEEtran}
+\providecommand{\nCr}[2]{\,^{#1}C_{#2}} % nCr
+\providecommand{\nPr}[2]{\,^{#1}P_{#2}} % nPr
+\providecommand{\mbf}{\mathbf}
+\providecommand{\pr}[1]{\ensuremath{\Pr\left(#1\right)}}
+\providecommand{\qfunc}[1]{\ensuremath{Q\left(#1\right)}}
+\providecommand{\sbrak}[1]{\ensuremath{{}\left[#1\right]}}
+\providecommand{\lsbrak}[1]{\ensuremath{{}\left[#1\right.}}
+\providecommand{\rsbrak}[1]{\ensuremath{{}\left.#1\right]}}
+\providecommand{\brak}[1]{\ensuremath{\left(#1\right)}}
+\providecommand{\lbrak}[1]{\ensuremath{\left(#1\right.}}
+\providecommand{\rbrak}[1]{\ensuremath{\left.#1\right)}}
+\providecommand{\cbrak}[1]{\ensuremath{\left\{#1\right\}}}
+\providecommand{\lcbrak}[1]{\ensuremath{\left\{#1\right.}}
+\providecommand{\rcbrak}[1]{\ensuremath{\left.#1\right\}}}
+\theoremstyle{remark}
+\newtheorem{rem}{Remark}
+\newcommand{\sgn}{\mathop{\mathrm{sgn}}}
+\newcommand{\rect}{\mathop{\mathrm{rect}}}
+\newcommand{\sinc}{\mathop{\mathrm{sinc}}}
+\providecommand{\abs}[1]{\left\vert#1\right\vert}
+\providecommand{\res}[1]{\Res\displaylimits_{#1}} 
+\providecommand{\norm}[1]{\lVert#1\rVert}
+\providecommand{\mtx}[1]{\mathbf{#1}}
+\providecommand{\mean}[1]{E\left[ #1 \right]}
+\providecommand{\fourier}{\overset{\mathcal{F}}{ \rightleftharpoons}}
+\providecommand{\ztrans}{\overset{\mathcal{Z}}{ \rightleftharpoons}}
+\providecommand{\system}[1]{\overset{\mathcal{#1}}{ \longleftrightarrow}}
+\newcommand{\solution}{\noindent \textbf{Solution: }}
+\providecommand{\dec}[2]{\ensuremath{\overset{#1}{\underset{#2}{\gtrless}}}}
+\numberwithin{equation}{section}
+\makeatletter
+\@addtoreset{figure}{problem}
+\makeatother
+\let\StandardTheFigure\thefigure
+\renewcommand{\thefigure}{\theproblem}
+\def\putbox#1#2#3{\makebox[0in][l]{\makebox[#1][l]{}\raisebox{\baselineskip}[0in][0in]{\raisebox{#2}[0in][0in]{#3}}}}
+     \def\rightbox#1{\makebox[0in][r]{#1}}
+     \def\centbox#1{\makebox[0in]{#1}}
+     \def\topbox#1{\raisebox{-\baselineskip}[0in][0in]{#1}}
+     \def\midbox#1{\raisebox{-0.5\baselineskip}[0in][0in]{#1}}
+\vspace{3cm}
+\title{Introduction}
+\maketitle
+\tableofcontents
+\renewcommand{\thefigure}{\theenumi}
+\renewcommand{\thetable}{\theenumi}
+\bigskip
+
+\section{Purpose of Database Systems}
+
+Conventional operating systems store records in files, forming a 
+\textit{file-processing system}. The advantages of a database system over a 
+file system are:
+
+\begin{enumerate}
+    \item \textbf{Data redundancy and inconsistency:}
+    \begin{enumerate}
+        \item Various files created over time have different structures.
+        \item Application programs may be written in several programming 
+        languages.
+        \item Same information may be duplicated in several files, records may
+         not match. This is called \textit{data inconsistency}.
+    \end{enumerate}
+
+    \item \textbf{Difficulty in Accessing Data:}
+    \begin{enumerate}
+        \item With a file system, a query must either be \textit{manually}
+         processed, or an application program must be written.
+        \item File systems do not allow data retrieval and querying in an 
+        efficient manner.
+    \end{enumerate}
+
+    \item \textbf{Data isolation:}
+    \begin{enumerate}
+        \item Data scattered in various files and formats.
+        \item Difficult to write new applications to retireve data.
+    \end{enumerate}
+
+    \item \textbf{Integrity problems:}
+    \begin{enumerate}
+        \item Data in a database must satisfy some \textit{consistency 
+        constraints}.
+        \item Adding new constraints to application programs is difficult.
+    \end{enumerate}
+
+    \item \textbf{Atomicity problems:}
+    \begin{enumerate}
+        \item For database consistency, an operation must either occur entirely
+        or not at all.
+        \item Difficult to ensure atomicity in a file system.
+    \end{enumerate}
+
+    \item \textbf{Concurrent-access anomalies:}
+    \begin{enumerate}
+        \item For performance and faster response, systems allow multiple users
+        to update the data simultaneously.
+        \item Concurrent updates may interact and result in inconsistent data.
+        \item To guard against this, the system must maintain some form of 
+        supervision. Difficult in file systems.
+    \end{enumerate}
+
+    \item \textbf{Security problems:}
+    \begin{enumerate}
+        \item Users should have restricted access to prevent tampering of data.
+        \item Difficult to enforce restrictions in application programs.
+    \end{enumerate}
+\end{enumerate}
+
+\section{View of Data}
+
+\subsection{Data Models}
+
+A \textbf{data model} is a collection of conceptual tools for describing data, 
+data relationships/semantics and consistency constraints. They are classified as:
+
+\begin{enumerate}
+    \item \textbf{Relational Model:}
+    \begin{enumerate}
+        \item Collection of tables (called \textit{relations}) used.
+        \item Each table has multiple columns (each with their unique name), 
+        correspinding to the attributes of the records.
+        \item Each record has a fixed number of attributes.
+        \item Most widely used data model.
+    \end{enumerate}
+
+    \item \textbf{Entity-Relationship (E-R) Model:}
+    \begin{enumerate}
+        \item Uses a collection of basic objects (called \textit{entities}) and
+        \textit{relationships} among those objects.
+        \item Most widely used in database design.
+    \end{enumerate}
+
+    \item \textbf{Semi-structured Data Model:}
+    \begin{enumerate}
+        \item Permits the specification of data where individual items can have
+        different sets of attributes.
+        \item Examples are \textit{JSON} and \textit{XML} (eXtensible Markup
+        Language).
+    \end{enumerate}
+
+    \item \textbf{Object-Based Data Model:}
+    \begin{enumerate}
+        \item Well integrated into relational databases.
+        \item Can store objects and procedures to execute in the database system.
+        \item Can be seen as extending the relational model with notions of 
+        encapsulation, methods, and object identity.
+    \end{enumerate}
+\end{enumerate}
+
+\subsection{Data Abstraction}
+
+The complexity of the database system is hidden from users through several 
+levels of \textit{data abstraction} as follows:
+
+\begin{enumerate}
+    \item \textbf{Physical Level:}
+    \begin{enumerate}
+        \item Describes \textit{how} the data are actually stored.
+        \item Descirbes complex low-level data structures in detail.
+        \item Records can be described as a block of consecutive bytes. Hidden 
+        by compilers and database systems from programmers.
+        \item \textit{Index} data structure is used to support efficient 
+        retrieval of records, part of the physical level.
+    \end{enumerate}
+
+    \item \textbf{Logical Level:}
+    \begin{enumerate}
+        \item Describes \textit{what} data are stored in the database, and 
+        their relationships.
+        \item Describes the database in terms of small number of relatively 
+        simple structures.
+        \item The user of the logical level does not need to be aware of the 
+        complexity of underlying physical-level structures. This is called 
+        \textit{physical data independence}.
+        \item Each record is described by a type definition. The relationships 
+        between these types is also defined at this level.
+        \item Used by database administrators and programmers.
+    \end{enumerate}
+
+    \item \textbf{View Level:}
+    \begin{enumerate}
+        \item Highest level of abstraction. Describes only part of the entire 
+        database.
+        \item Simplifies user interaction with the database system by showing 
+        part of the database required. Hides undelying complexities from end users.
+        \item Also provides a security mechanism to prevent unrestricted access.
+    \end{enumerate}
+\end{enumerate}
+
+\subsection{Instances and Schemas}
+
+\begin{enumerate}
+    \item \textbf{Instance:} Collection of information stored in the databse 
+    at a particular moment.
+    \item \textbf{Schema:} The overall design of the database.
+    \begin{enumerate}
+        \item \textit{Physical schema} describes database design at a physical 
+        level.
+        \item \textit{Logical schema} describes database design at a logical 
+        level. Applications are constructed using the logical schema.
+        \item \textit{Subschemas} at the view level describe different views of 
+        the database.
+    \end{enumerate}
+    \item Schemas if poorly created can have problems such as duplication and 
+    redundancy.
+\end{enumerate}
+
+\section{Database Languages}
+
+\subsection{Data-Definition Language (DDL)}
+
+\begin{enumerate}
+    \item Used to specify the database schema and additional properties of the 
+    data.
+    \item \textit{Data storage and definition} language can be used to specify 
+    the storage structure and access methods of the data.
+    \item Database systems implement constraints that can be tested with 
+    minimal overhead:
+    \begin{enumerate}
+        \item \textbf{Domain Constraints:} Constrains the values an attribute 
+        can take, by associating a domain with every atribute.
+        \item \textbf{Referential integrity:} Ensure that a value of a certain 
+        attribute(s) appearing in one relation also appears in another relation.
+        \item \textbf{Authorization:} To differentiate the users based on the 
+        type of access. Database systems support \textit{read, insert, update, 
+        delete} authorizations for this purpose.
+    \end{enumerate}
+    \item DDL outputs are placed in the \textbf{data dictionary}, which 
+    contains \textbf{metadata} (data about data). The data dictionary is a 
+    special table that can only be accessed by the database system and not by 
+    any user.
+    \item Format in SQL
+ 
+    \begin{lstlisting}
+    create table t
+    ( 
+        <attr1> <domain1> <constraint1>,
+        <attr2> <domain2> <constraint2>,
+        ... ,
+        <addn-constraint1>,
+        <addn-constraint2>,
+        ...,
+    );
+    \end{lstlisting}
+
+\end{enumerate}
+
+\subsection{Data Manipulation Language (DML)}
+
+Enables users to access or manipulate data organized by the data model. Various 
+types of accesses are:
+\begin{enumerate}
+    \item Retrieval of information
+    \item Insertion of new information
+    \item Deletion of information
+    \item Modification of information
+\end{enumerate}
+
+There are two types of DMLs:
+
+\begin{table}[!ht]
+    \centering
+    \begin{tabularx}{\columnwidth}{|X|X|}
+    \hline
+    \textbf{Procedural DMLs} & \textbf{Declarative or Non-procedural DMLs} \\
+    \hline
+    Specify \textit{what} data is needed and \textit{how} to get 
+    those data. & Specify \textit{what} data is needed 
+    \textit{without} specifying how to get those data. \\
+    \hline
+    Tougher to learn. & Easier to learn. \\
+    \hline
+    \end{tabularx}
+    \label{tab:diff}
+\end{table}
+
+\textbf{Query:} Statement requesting the retrieval of information. The part of 
+a DML that deals with information retrieval is called a \textit{query language}.
+
+In SQL,
+\begin{enumerate}
+    \item The SQL query language is nonprocedural.
+    \item A query takes inputs of several (possibly one) table(s) and outputs a
+    single table.
+\end{enumerate}
+
+\subsection{Database Access from Application Programs}
+\begin{enumerate}
+    \item Nonprocedural query languages are not Turing complete.
+    \item Two ways to integrate them using a general-purpose programming language:
+    \begin{enumerate}
+        \item \textit{Embedded SQL:} SQL statements embedded in a \textit{host} 
+        programming language.
+        \item \textit{Application Program Interface (API):} Set of procedures 
+        used to send queries to the database from the \textit{host} programming
+        language.
+        \item Examples are Open Database Connectivity (ODBC) standard for 
+        languages like C, and Java Database Connectivity (JDBC) standard for 
+        Java.
+    \end{enumerate}
+\end{enumerate}
+
+\section{Database Design}
+
+\begin{enumerate}
+    \item Mainly involves design of the database schema.
+    \item Initial phase: characterize data needs of the users; interact with 
+    domain experts and users for this. Leads to a specification of user 
+    requirements.
+    \item \textit{Conceptual-design phase:} Requirements translated into a 
+    conceptual database schema. Review to prevent conflicts between requirements.
+    Focus on describing data and their relationships, using the E-R model and 
+    various algorithms to quantify attributes.
+    \item \textit{Specification of functional requirements:} Users describe the 
+    kinds of operations that should be supported. Design reviewed for such support.
+    \item \textit{Logical-design phase:} Map high-level conceptual schema onto 
+    the implementation data model of the database system.
+    \item \textit{Physical-design phase:} Specify physical features of the database.
+\end{enumerate}
+
+\section{Database Engine}
+
+A database system contains various components, described ahead.
+
+\subsection{Storage Manager}
+
+Provides interface between the low-level data and the application 
+programs/queries submitted to the system. Converts DML statements into low-level
+file-system commands. Responsible for storing, retrieving and updating data in
+the database.
+
+Components of the storage manager are as follows:
+\begin{enumerate}
+    \item \textbf{Authorization and integrity manager:} Checks whether the 
+    integrity constraints are satisfied and checks user authority.
+    \item \textbf{Transaction manager:} Ensures the database remains in a 
+    consistent state despite system failures, and that concurrent transactions 
+    occured without conflicts.
+    \item \textbf{File manager:} Manages allocation of space on disk and data 
+    structures used to represent information stored on disk.
+    \item \textbf{Buffer manager:} Fetches data from disk storage, and decides 
+    what data to cache in main memory. Critical since it enables databases to 
+    handle data sizes much larger than the size of main memory.
+\end{enumerate}
+
+Data structures implemented by the storage manager are:
+\begin{enumerate}
+    \item \textbf{Data files:} Store the database itself
+    \item \textbf{Data dictionary:} Stores metadata of the database.
+    \item \textbf{Indices:} Provide fast access to data items.
+\end{enumerate}
+
+\subsection{Query Processor}
+
+Components of the query processor are as follows:
+\begin{enumerate}
+    \item \textbf{DDL interpreter:} Interprets DDL statements and records the 
+    definitions in the data dictionary.
+    \item \textbf{DML compiler:} Translates DML statements into an evalutaion 
+    plan of low-level instructions that the query-evaluation engine understands.
+    Also performs \textit{query optimization i.e.,} picks the lowest cost 
+    evaluation plan.
+    \item \textbf{Query evaluation engine:} Executes low-level instructions 
+    generated by the DML compiler.
+\end{enumerate}
+
+\subsection{Transaction Management}
+
+\textbf{Atomicity:} Single transaction on a database must happen entirely or 
+not at all.
+\textbf{Consistency:} Database must be correct at any point of time.
+\textbf{Durability:} After successful transaction, the new records must persist,
+despite system failure.
+\textbf{Transaction:} A collection of operations that performs a single logical
+function in a database application.
+
+\begin{enumerate}
+    \item Each transaction is a unit of atomicity and consistency.
+    \item State of consistency must be maintained before and after the 
+    transaction.
+\end{enumerate}
+
+\textbf{Transaction manager} consists of:
+\begin{enumerate}
+    \item \textbf{Recovery manager:} Ensures atomicity and durability of the 
+    database. Must perform \textit{failure recovery} to detect failures and 
+    restore the database to a consistent state.
+    \item \textbf{Concurrency-control manager:} Control interaction among 
+    concurrent transactions to maintain the consistency of the database.
+\end{enumerate}
+
+\section{Database and Application Architecture}
+
+To scale up to larger data sizes and higher processing speeds, we have 
+\textit{parallel databases} (run on a cluster consisting of multiple machines)
+and \textit{distributed databases} (data stored/queries processed across 
+multiple geographically seaparated machines).
+
+Database applications can be partitioned into two or three parts:
+\begin{enumerate}
+    \item \textit{Two-tier architecture:} Application resides at the client 
+    machine and queries the server machine.
+    \item \textit{Three-tier architecture:} Used by modern applications. 
+    Frontend communicates with the \textit{application server}, which has 
+    \textit{business logic} embedded in it (as opposed to deploying it on 
+    various clients). Provides better security and performance.
+\end{enumerate}
+
+\section{Database Users and Administrators}
+
+There are four types of database users based on the way they interact with the 
+system:
+\begin{enumerate}
+    \item \textbf{Naive users:}
+    \begin{enumerate}
+        \item Unsophisticated users, interact using the predefined interfaces.
+        \item Typically fill forms and read reports generated by the database.
+    \end{enumerate}
+
+    \item \textbf{Application programmers:} Develop user interfaces by writing 
+    application programs using various tools/frameworks.
+
+    \item \textbf{Sophisticated users:}
+    \begin{enumerate}
+        \item Interact with the system without writing programs.
+        \item Form requests using query languages or data analysis software, 
+        mainly to explore the data in the database.
+    \end{enumerate}
+
+    \item \textbf{Database administrator (DBA):} Has central control over the 
+    system. Functions are:
+    \begin{enumerate}
+        \item \textit{Schema definition:} Execute DDL to create the original 
+        database schema.
+        \item \textit{Storage structure and access-method definition:} Specify 
+        parameters regarding physical organization of the data and generated indices.
+        \item \textit{Schema and physical-organization modification:} Change 
+        the schema and physical organization to suit changing needs of the 
+        organization, or to improve performance.
+        \item \textit{Granting authorization for data access:} Regulate user 
+        access to appropriate parts of the database.
+        \item \textit{Routine maintenance:} Periodic backup of data onto remote 
+        servers, keeping a check on free disk space, monitoring jobs running on 
+        the database to maintain performance.
+    \end{enumerate}
+\end{enumerate}
+
+\end{document}
